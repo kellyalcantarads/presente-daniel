@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Daniel System</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        background: #070b10;
+        color: #e8f0f7;
+        font-family: "Courier New", monospace;
+        min-height: 100vh;
+        overflow-x: hidden;
+    }
+
+    body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background:
+            linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+        background-size: 40px 40px;
+        z-index: -2;
+    }
+
+    body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background: radial-gradient(circle at center, transparent 30%, rgba(0,0,0,0.55) 100%);
+        z-index: -1;
+    }
+
+    .container {
+        width: min(900px, 92%);
+        margin: auto;
+    }
+
+    .screen {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 50px 0;
+    }
+
+    .terminal {
+        width: 100%;
+        background: rgba(10, 16, 23, 0.94);
+        border: 1px solid #263440;
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 0 60px rgba(0,0,0,0.5);
+    }
+
+    .terminal-header {
+        height: 42px;
+        background: #111923;
+        border-bottom: 1px solid #263440;
+        display: flex;
+        align-items: center;
+        padding: 0 15px;
+        gap: 8px;
+    }
+
+    .dot {
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+        background: #586572;
+    }
+
+    .terminal-title {
+        margin-left: 10px;
+        font-size: 12px;
+        color: #758493;
+    }
+
+    .terminal-body {
+        padding: 45px;
+    }
+
+    .green {
+        color: #62e6a8;
+    }
+
+    .blue {
+        color: #79bfff;
+    }
+
+    .purple {
+        color: #c49cff;
+    }
+
+    .pink {
+        color: #ff9fc8;
+    }
+
+    .muted {
+        color: #73808d;
+    }
+
+    .cursor {
+        display: inline-block;
+        width: 8px;
+        height: 18px;
+        background: #62e6a8;
+        margin-left: 5px;
+        vertical-align: middle;
+        animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+        50% { opacity: 0; }
+    }
+
+    .boot {
+        font-size: 14px;
+        line-height: 1.9;
+        margin-bottom: 35px;
+    }
+
+    .hero {
+        text-align: center;
+        padding: 25px 0 35px;
+    }
+
+    .heart {
+        font-size: 55px;
+        display: block;
+        margin-bottom: 20px;
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        50% {
+            transform: scale(1.08);
+        }
+    }
+
+    h1 {
+        font-size: clamp(30px, 7vw, 58px);
+        letter-spacing: 5px;
+        margin-bottom: 15px;
+    }
+
+    .subtitle {
+        color: #8795a3;
+        font-size: 14px;
+        line-height: 1.8;
+    }
+
+    .status {
+        margin: 30px auto;
+        border: 1px solid #263440;
+        border-radius: 10px;
+        padding: 20px;
+        max-width: 600px;
+        text-align: left;
+        background: rgba(255,255,255,0.015);
+    }
+
+    .status-line {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 7px 0;
+        border-bottom: 1px dashed #202c36;
+        font-size: 13px;
+    }
+
+    .status-line:last-child {
+        border-bottom: none;
+    }
+
+    .button {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 15px 25px;
+        border: 1px solid #62e6a8;
+        color: #62e6a8;
+        background: transparent;
+        border-radius: 8px;
+        font-family: inherit;
+        font-size: 14px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .button:hover {
+        background: #62e6a8;
+        color: #07100c;
+        box-shadow: 0 0 25px rgba(98,230,168,0.25);
+    }
+
+    .story {
+        display: none;
+    }
+
+    .story.active {
+        display: block;
+        animation: fadeIn 0.7s ease;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(15px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .chapter-number {
+        font-size: 12px;
+        color: #62e6a8;
+        margin-bottom: 15px;
+    }
+
+    h2 {
+        font-size: clamp(24px, 5vw, 38px);
+        margin-bottom: 25px;
+        letter-spacing: 1px;
+    }
+
+    .story-text {
+        font-family: Arial, sans-serif;
+        color: #b8c3cc;
+        font-size: 17px;
+        line-height: 1.9;
+        margin-bottom: 30px;
+    }
+
+    .memory {
+        border-left: 2px solid #62e6a8;
+        padding: 15px 20px;
+        margin: 25px 0;
+        background: rgba(98,230,168,0.03);
+        color: #d8e1e8;
+        line-height: 1.7;
+    }
+
+    .symbol {
+        text-align: center;
+        font-size: 60px;
+        margin: 30px 0;
+    }
+
+    .navigation {
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+        margin-top: 40px;
+        padding-top: 25px;
+        border-top: 1px solid #263440;
+    }
+
+    .nav-button {
+        padding: 12px 18px;
+        border: 1px solid #354552;
+        background: transparent;
+        color: #aebbc5;
+        border-radius: 7px;
+        cursor: pointer;
+        font-family: inherit;
+        transition: 0.3s;
+    }
+
+    .nav-button:hover {
+        border-color: #62e6a8;
+        color: #62e6a8;
+    }
+
+    .progress {
+        display: flex;
+        gap: 5px;
+        margin-bottom: 35px;
+    }
+
+    .progress span {
+        height: 3px;
+        flex: 1;
+        background: #263440;
+        border-radius: 3px;
+    }
+
+    .progress span.active {
+        background: #62e6a8;
+    }
+
+    .final {
+        text-align: center;
+        padding: 25px 0;
+    }
+
+    .final-message {
+        font-family: Arial, sans-serif;
+        font-size: 19px;
+        line-height: 2;
+        color: #d7dfe5;
+        max-width: 650px;
+        margin: 0 auto 35px;
+    }
+
+    .signature {
+        color: #ff9fc8;
+        font-size: 22px;
+        margin-top: 30px;
+    }
+
+    .footer {
+        text-align: center;
+        margin-top: 35px;
+        color: #53616d;
+        font-size: 11px;
+    }
+
+    @media (max-width: 600px) {
+        .terminal-body {
+            padding: 28px 20px;
+        }
+
+        .status-line {
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .navigation {
+            flex-direction: column;
+        }
+
+        .nav-button {
+            width: 100%;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="screen">
+<div class="container">
+
+<div class="terminal">
+
+    <div class="terminal-header">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="terminal-title">daniel_system.exe</span>
+    </div>
+
+    <div class="terminal-body">
+
+        <!-- TELA INICIAL -->
+
+        <section id="home">
+
+            <div class="boot">
+                <div><span class="green">SYSTEM</span> :: initializing...</div>
+                <div><span class="green">MEMORY</span> :: loading special memories...</div>
+                <div><span class="green">CONNECTION</span> :: <span class="blue">stable</span></div>
+                <div><span class="green">STATUS</span> :: <span class="pink">something beautiful detected</span><span class="cursor"></span></div>
+            </div>
+
+            <div class="hero">
+
+                <span class="heart">♥</span>
+
+                <h1>DANIEL SYSTEM</h1>
+
+                <p class="subtitle">
+                    Uma pequena experiência sobre uma história<br>
+                    que ainda está sendo escrita.
+                </p>
+
+                <div class="status">
+
+                    <div class="status-line">
+                        <span class="muted">USER</span>
+                        <span class="blue">DANIEL</span>
+                    </div>
+
+                    <div class="status-line">
+                        <span class="muted">CONNECTION</span>
+                        <span class="green">ESTABLISHED</span>
+                    </div>
+
+                    <div class="status-line">
+                        <span class="muted">STORY</span>
+                        <span class="purple">IN PROGRESS</span>
+                    </div>
+
+                    <div class="status-line">
+                        <span class="muted">HEART</span>
+                        <span class="pink">FULL ♥</span>
+                    </div>
+
+                </div>
+
+                <button class="button" onclick="startStory()">
+                    [ INICIAR EXPERIÊNCIA ]
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- HISTÓRIA -->
+
+        <section id="story" class="story">
+
+            <div class="progress" id="progress"></div>
+
+            <div id="chapter"></div>
+
+        </section>
+
+        <div class="footer">
+            system created with love // 2026
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+</div>
+
+
+<script>
+
+const chapters = [
+
+{
+    number: "01 // CONNECTION ESTABLISHED",
+    title: "E então, a gente se encontrou.",
+    symbol: "⌁",
+    text: `
+    Duas pessoas que não sabiam exatamente onde aquela história iria chegar
+    acabaram dando match.
+    <br><br>
+    E o primeiro encontro não saiu exatamente como planejado.
+    Os lugares estavam fechados, os planos mudaram...
+    e, no fim, a gente simplesmente improvisou.
+    `,
+    memory: `
+    Talvez o mais bonito tenha sido justamente isso:
+    não precisar que tudo saísse perfeito para que fosse especial.
+    `
+},
+
+{
+    number: "02 // MEMORY STORED",
+    title: "Pequenos detalhes.",
+    symbol: "🍷",
+    text: `
+    Tem coisas que parecem pequenas.
+    Um vinho escolhido pensando no que o outro gosta.
+    Um detalhe lembrado no meio de uma conversa.
+    Uma coisa que poderia passar despercebida.
+    `,
+    memory: `
+    Mas quando alguém presta atenção,
+    o pequeno deixa de ser pequeno.
+    `
+},
+
+{
+    number: "03 // SPECIAL EVENT",
+    title: "Dois girassóis.",
+    symbol: "🌻",
+    text: `
+    E teve aquele momento em que chegaram as flores.
+    Um gesto inesperado, bonito e completamente seu.
+    `,
+    memory: `
+    Acho que descobri uma coisa:
+    às vezes a gente não precisa de grandes declarações.
+    Às vezes, dois girassóis já dizem bastante.
+    `
+},
+
+{
+    number: "04 // CONNECTION",
+    title: "Você na minha teia.",
+    symbol: "🕸️",
+    text: `
+    Em algum momento, presentes começaram a contar histórias também.
+    Uma pequena referência, uma brincadeira,
+    uma ideia que virou objeto.
+    `,
+    memory: `
+    Eu tinha uma ideia...
+    <br>
+    <strong>Você na minha teia.</strong>
+    `
+},
+
+{
+    number: "05 // PERSISTENT MEMORY",
+    title: "Um olhar que vai comigo.",
+    symbol: "👀",
+    text: `
+    Algumas coisas a gente carrega mesmo quando não está perto.
+    Uma lembrança.
+    Um detalhe.
+    Um olhar.
+    `,
+    memory: `
+    Seu olhar comigo,
+    onde quer que eu vá,
+    ele me acompanha.
+    `
+},
+
+{
+    number: "06 // CORE SYSTEM",
+    title: "Incendeie seu coração.",
+    symbol: "🔥",
+    text: `
+    Tem uma coisa que eu admiro em você:
+    a pessoa que você é quando simplesmente é você.
+    `,
+    memory: `
+    心を燃やせ
+    <br><br>
+    Incendeie seu coração.
+    <br><br>
+    E nunca deixe de ser quem você é.
+    `
+},
+
+{
+    number: "07 // SHARED MEMORY",
+    title: "Uma mesa.",
+    symbol: "🍲",
+    text: `
+    E talvez uma das minhas memórias favoritas seja uma das mais simples:
+    uma cozinha, algumas panelas e uma mesa cheia de gente.
+    <br><br>
+    Eu cozinhando.
+    Você fazendo o arroz.
+    Sua família experimentando.
+    Conversas acontecendo.
+    Risadas.
+    E aquela sensação gostosa de estar exatamente onde eu queria estar.
+    `,
+    memory: `
+    Cozinhar é um ato de amor.
+    <br><br>
+    E algumas refeições acabam virando memória antes mesmo de terminarem.
+    `
+},
+
+{
+    number: "08 // FINAL STATUS",
+    title: "História em andamento.",
+    symbol: "♥",
+    text: `
+    Eu não sei exatamente onde essa história vai chegar.
+    <br><br>
+    E, pela primeira vez em muito tempo,
+    acho que não preciso saber agora.
+    `,
+    memory: `
+    Só sei que, entre tantos caminhos possíveis,
+    eu gostei muito de encontrar você.
+    `,
+    final: true
+}
+
+];
+
+
+let current = 0;
+
+
+function startStory() {
+
+    document.getElementById("home").style.display = "none";
+    document.getElementById("story").classList.add("active");
+
+    showChapter();
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+
+function showChapter() {
+
+    const chapter = chapters[current];
+
+    const progress = document.getElementById("progress");
+
+    progress.innerHTML = "";
+
+    chapters.forEach((item, index) => {
+
+        const bar = document.createElement("span");
+
+        if (index <= current) {
+            bar.classList.add("active");
+        }
+
+        progress.appendChild(bar);
+
+    });
+
+
+    let html = `
+
+        <div class="chapter-number">${chapter.number}</div>
+
+        <h2>${chapter.title}</h2>
+
+        <div class="symbol">${chapter.symbol}</div>
+
+        <div class="story-text">
+            ${chapter.text}
+        </div>
+
+        <div class="memory">
+            ${chapter.memory}
+        </div>
+
+    `;
+
+
+    if (chapter.final) {
+
+        html += `
+
+            <div class="final">
+
+                <div class="final-message">
+
+                    Não sei onde essa história vai chegar.<br>
+                    E talvez essa seja justamente a parte bonita.
+
+                    <br><br>
+
+                    Mas sei que, entre tantos caminhos possíveis,
+                    eu gostei muito de encontrar você.
+
+                    <br><br>
+
+                    Obrigada por fazer parte da minha história.
+
+                    <div class="signature">
+                        Avy jorrāelan ❤️
+                    </div>
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    html += `<div class="navigation">`;
+
+    if (current > 0) {
+
+        html += `
+            <button class="nav-button" onclick="previousChapter()">
+                ← voltar
+            </button>
+        `;
+
+    } else {
+
+        html += `
+            <button class="nav-button" onclick="backHome()">
+                ← início
+            </button>
+        `;
+
+    }
+
+
+    if (current < chapters.length - 1) {
+
+        html += `
+            <button class="nav-button" onclick="nextChapter()">
+                continuar →
+            </button>
+        `;
+
+    } else {
+
+        html += `
+            <button class="nav-button" onclick="backHome()">
+                ↻ reiniciar
+            </button>
+        `;
+
+    }
+
+    html += `</div>`;
+
+
+    document.getElementById("chapter").innerHTML = html;
+
+}
+
+
+function nextChapter() {
+
+    if (current < chapters.length - 1) {
+
+        current++;
+
+        showChapter();
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    }
+
+}
+
+
+function previousChapter() {
+
+    if (current > 0) {
+
+        current--;
+
+        showChapter();
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    }
+
+}
+
+
+function backHome() {
+
+    current = 0;
+
+    document.getElementById("story").classList.remove("active");
+    document.getElementById("home").style.display = "block";
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
+
+</script>
+
+</body>
+</html>
