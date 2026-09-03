@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,20 +7,19 @@
 <title>DANIEL_SYSTEM.exe</title>
 
 <style>
-
 :root{
-    --bg:#05080d;
-    --panel:#0a1119;
-    --panel2:#0d1620;
-    --border:#1b2938;
-    --text:#d9e3ed;
-    --muted:#718293;
-    --green:#58f0b2;
-    --cyan:#62d9ff;
-    --pink:#ff79b8;
-    --yellow:#ffd66b;
-    --red:#ff687d;
-    --shadow:0 0 35px rgba(0,0,0,.45);
+    --bg:#020608;
+    --panel:#071014;
+    --panel2:#0a1519;
+    --border:#1b3838;
+    --green:#63ff9b;
+    --green2:#2dd66f;
+    --cyan:#66e0ff;
+    --pink:#ff6f91;
+    --gold:#ffd86b;
+    --text:#d9e3e7;
+    --muted:#71858b;
+    --danger:#ff5d6c;
 }
 
 *{
@@ -35,260 +34,396 @@ html{
 
 body{
     background:
-        radial-gradient(circle at 50% -10%,rgba(45,90,120,.15),transparent 40%),
-        var(--bg);
+        radial-gradient(circle at 50% 0%, rgba(0,255,120,.06), transparent 35%),
+        #020608;
     color:var(--text);
-    font-family:Consolas,"Courier New",monospace;
+    font-family:"Courier New",monospace;
     min-height:100vh;
+    overflow-x:hidden;
 }
 
-/* =========================
-   TERMINAL WINDOW
-========================= */
-
-.system-window{
-    width:min(1100px,94%);
-    margin:25px auto 70px;
-    border:1px solid var(--border);
-    background:rgba(7,12,18,.96);
-    box-shadow:var(--shadow);
-    border-radius:12px;
-    overflow:hidden;
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    opacity:.05;
+    background-image:
+        linear-gradient(rgba(255,255,255,.5) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.5) 1px,transparent 1px);
+    background-size:35px 35px;
 }
 
-.window-bar{
-    height:43px;
-    background:#0b121a;
-    border-bottom:1px solid var(--border);
-    display:flex;
-    align-items:center;
-    padding:0 16px;
-    gap:8px;
+.hidden{
+    display:none!important;
 }
 
-.dot{
-    width:12px;
-    height:12px;
-    border-radius:50%;
-    background:#53616e;
-}
-
-.window-title{
-    margin-left:12px;
-    color:#718293;
-    font-size:13px;
-    letter-spacing:.5px;
-}
-
-.content{
-    padding:38px;
+a{
+    color:inherit;
+    text-decoration:none;
 }
 
 /* =========================
    BOOT
 ========================= */
 
-.boot{
-    min-height:390px;
+#boot{
+    position:fixed;
+    inset:0;
+    background:#010304;
+    z-index:9999;
     display:flex;
-    flex-direction:column;
+    align-items:center;
     justify-content:center;
-}
-
-.boot-line{
-    margin:10px 0;
-    color:var(--green);
-    font-size:14px;
-}
-
-.boot-line span{
-    color:var(--muted);
-}
-
-.boot-status{
-    color:var(--pink);
-}
-
-.cursor{
-    display:inline-block;
-    width:8px;
-    height:17px;
-    background:var(--green);
-    margin-left:4px;
-    animation:blink 1s infinite;
-    vertical-align:middle;
-}
-
-@keyframes blink{
-    50%{opacity:0}
-}
-
-/* =========================
-   HEADER
-========================= */
-
-.system-header{
-    text-align:center;
-    padding:30px 0 55px;
-}
-
-.system-symbol{
-    color:var(--pink);
-    font-size:28px;
-    margin-bottom:25px;
-}
-
-.system-header h1{
-    font-size:clamp(36px,7vw,76px);
-    letter-spacing:8px;
-    color:#edf4fa;
-    text-shadow:0 0 25px rgba(98,217,255,.12);
-}
-
-.system-header p{
-    margin-top:18px;
-    color:var(--muted);
-    font-size:14px;
-}
-
-/* =========================
-   PANELS
-========================= */
-
-.panel{
-    background:var(--panel);
-    border:1px solid var(--border);
-    border-radius:8px;
-    margin-bottom:25px;
-    overflow:hidden;
-}
-
-.panel-header{
-    padding:13px 18px;
-    border-bottom:1px solid var(--border);
-    background:var(--panel2);
-    color:var(--muted);
-    font-size:13px;
-    display:flex;
-    justify-content:space-between;
-}
-
-.panel-header .active{
-    color:var(--green);
-}
-
-.panel-body{
     padding:25px;
 }
 
-/* =========================
-   CODE
-========================= */
-
-.code{
-    line-height:1.9;
-    font-size:14px;
-    overflow-x:auto;
+.boot-box{
+    width:min(720px,100%);
+    border:1px solid var(--border);
+    background:#03090b;
+    padding:25px;
+    box-shadow:0 0 35px rgba(0,255,120,.08);
 }
 
-.line{
-    white-space:pre-wrap;
-}
-
-.num{
-    display:inline-block;
-    width:35px;
-    color:#334452;
-    user-select:none;
-}
-
-.keyword{
-    color:var(--pink);
-}
-
-.variable{
-    color:var(--cyan);
-}
-
-.string{
+.boot-title{
     color:var(--green);
+    font-size:clamp(20px,4vw,34px);
+    margin-bottom:20px;
 }
 
-.comment{
-    color:#526473;
+.boot-line{
+    color:#91a6aa;
+    margin:7px 0;
 }
 
-.function{
-    color:var(--yellow);
+.boot-progress{
+    height:12px;
+    border:1px solid var(--border);
+    margin-top:20px;
+    padding:2px;
+}
+
+.boot-progress span{
+    display:block;
+    height:100%;
+    width:0;
+    background:var(--green);
+    box-shadow:0 0 12px var(--green);
+    animation:bootProgress 2.3s forwards;
+}
+
+@keyframes bootProgress{
+    to{width:100%}
 }
 
 /* =========================
-   STATUS GRID
+   APP
 ========================= */
 
-.status-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:14px;
+#app{
+    max-width:1150px;
+    margin:auto;
+    padding:25px 18px 80px;
+}
+
+header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    border-bottom:1px solid var(--border);
+    padding:15px 0;
+    margin-bottom:25px;
+}
+
+.logo{
+    color:var(--green);
+    font-weight:bold;
 }
 
 .status{
-    padding:18px;
-    border:1px solid var(--border);
-    background:#081019;
-    border-radius:6px;
-}
-
-.status-label{
-    color:var(--muted);
-    font-size:11px;
-    margin-bottom:9px;
-}
-
-.status-value{
     color:var(--green);
-    font-size:14px;
+    font-size:12px;
 }
 
-.status-value.pink{
-    color:var(--pink);
-}
-
-.status-value.yellow{
-    color:var(--yellow);
+.status::before{
+    content:"●";
+    margin-right:7px;
 }
 
 /* =========================
-   NAVIGATION
+   TERMINAL
 ========================= */
 
-.command-bar{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
+.terminal{
+    border:1px solid var(--border);
+    background:rgba(5,12,15,.94);
+    padding:18px;
+    box-shadow:
+        0 0 25px rgba(0,255,120,.04),
+        inset 0 0 35px rgba(0,255,120,.025);
+}
+
+.terminal-title{
+    color:var(--green);
+    border-bottom:1px solid var(--border);
+    padding-bottom:12px;
+    margin-bottom:16px;
+}
+
+.prompt{
+    color:var(--green);
+}
+
+.muted{
+    color:var(--muted);
+}
+
+.section{
+    margin-top:35px;
+}
+
+.section-title{
+    color:var(--green);
+    font-size:14px;
+    margin-bottom:12px;
+}
+
+.section-title::before{
+    content:"[ ";
+    color:var(--muted);
+}
+
+.section-title::after{
+    content:" ]";
+    color:var(--muted);
+}
+
+/* =========================
+   LOGIN
+========================= */
+
+.login-screen{
+    max-width:650px;
+    margin:70px auto;
+}
+
+.login-header{
+    color:var(--green);
+    font-size:clamp(18px,4vw,27px);
+    margin-bottom:20px;
+}
+
+.login-row{
+    margin:10px 0;
+}
+
+.access{
+    color:var(--green);
+    margin-top:20px;
+}
+
+.password-area{
     margin-top:25px;
 }
 
-.command{
+.password-label{
+    color:var(--muted);
+    margin-bottom:8px;
+}
+
+.password-input{
+    width:100%;
+    background:#020608;
     border:1px solid var(--border);
-    background:#09121a;
-    color:var(--cyan);
-    padding:12px 17px;
-    border-radius:5px;
-    cursor:pointer;
+    padding:13px;
+    color:var(--green);
     font-family:inherit;
-    font-size:13px;
+    outline:none;
+}
+
+.password-input:focus{
+    border-color:var(--green);
+    box-shadow:0 0 12px rgba(99,255,155,.12);
+}
+
+.login-button,
+.command-button{
+    margin-top:14px;
+    background:transparent;
+    border:1px solid var(--green);
+    color:var(--green);
+    padding:11px 18px;
+    font-family:inherit;
+    cursor:pointer;
     transition:.2s;
 }
 
-.command:hover{
-    border-color:var(--cyan);
-    background:#0d1b26;
-    transform:translateY(-2px);
+.login-button:hover,
+.command-button:hover{
+    background:var(--green);
+    color:#020608;
+    box-shadow:0 0 18px rgba(99,255,155,.3);
+}
+
+.login-error{
+    color:var(--danger);
+    margin-top:12px;
 }
 
 /* =========================
-   MEMORY DATABASE
+   DASHBOARD
+========================= */
+
+.system-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+}
+
+.system-item{
+    border:1px solid var(--border);
+    padding:13px;
+    background:#050b0d;
+}
+
+.online{
+    color:var(--green);
+}
+
+.module-list{
+    margin-top:15px;
+    line-height:2;
+}
+
+.module-list div{
+    color:#8ea1a5;
+}
+
+.module-list div::first-letter{
+    color:var(--green);
+}
+
+.module-list div:hover{
+    color:var(--green);
+}
+
+/* =========================
+   TIME COUNTER
+========================= */
+
+.counter-box{
+    border:1px solid var(--border);
+    padding:22px;
+    text-align:center;
+    background:
+        radial-gradient(circle,rgba(99,255,155,.05),transparent 60%),
+        #040a0c;
+}
+
+.counter-label{
+    color:var(--muted);
+    font-size:12px;
+    margin-bottom:10px;
+}
+
+.counter{
+    color:var(--green);
+    font-size:clamp(20px,5vw,42px);
+    font-weight:bold;
+    letter-spacing:2px;
+    text-shadow:0 0 14px rgba(99,255,155,.25);
+}
+
+.counter-sub{
+    color:#71858b;
+    margin-top:10px;
+    font-size:12px;
+}
+
+/* =========================
+   WEB / CONNECTION
+========================= */
+
+.web-card{
+    border:1px solid var(--border);
+    padding:20px;
+    background:#03090b;
+    position:relative;
+    overflow:hidden;
+}
+
+.web-title{
+    color:var(--green);
+    margin-bottom:5px;
+}
+
+.web-subtitle{
+    color:var(--muted);
+    font-size:12px;
+}
+
+.web-visual{
+    height:330px;
+    position:relative;
+    margin-top:15px;
+}
+
+.web-svg{
+    width:100%;
+    height:100%;
+}
+
+.web-line{
+    stroke:rgba(99,255,155,.42);
+    stroke-width:1;
+    stroke-dasharray:5 6;
+    animation:dash 3s linear infinite;
+}
+
+@keyframes dash{
+    to{stroke-dashoffset:-60}
+}
+
+.web-node{
+    fill:#63ff9b;
+    filter:drop-shadow(0 0 7px #63ff9b);
+}
+
+.web-node-pink{
+    fill:#ff6f91;
+    filter:drop-shadow(0 0 8px #ff6f91);
+}
+
+.web-center{
+    fill:#020608;
+    stroke:#63ff9b;
+    stroke-width:2;
+}
+
+.web-message{
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    text-align:center;
+    pointer-events:none;
+}
+
+.web-message-main{
+    color:#f2f5f6;
+    font-size:clamp(14px,3vw,23px);
+}
+
+.web-message-sub{
+    color:var(--green);
+    font-size:11px;
+    margin-top:9px;
+}
+
+/* =========================
+   MEMORIES
 ========================= */
 
 .memory-grid{
@@ -297,741 +432,360 @@ body{
     gap:18px;
 }
 
-.memory-card{
+.memory{
     border:1px solid var(--border);
-    background:#080f16;
-    padding:18px;
-    cursor:pointer;
-    transition:.25s;
-    position:relative;
+    background:#040a0c;
     overflow:hidden;
+    transition:.25s;
 }
 
-.memory-card:hover{
-    border-color:var(--cyan);
+.memory:hover{
+    border-color:#315858;
     transform:translateY(-3px);
-    box-shadow:0 0 20px rgba(98,217,255,.08);
+    box-shadow:0 8px 25px rgba(0,0,0,.3);
 }
 
-.memory-id{
-    color:var(--muted);
+.memory img{
+    width:100%;
+    display:block;
+    aspect-ratio:16/10;
+    object-fit:cover;
+}
+
+.memory-info{
+    padding:14px;
+}
+
+.memory-number{
+    color:var(--green);
     font-size:11px;
-    margin-bottom:12px;
 }
 
 .memory-name{
-    color:var(--text);
-    font-size:16px;
-    margin-bottom:7px;
-}
-
-.memory-status{
-    color:var(--green);
-    font-size:11px;
-}
-
-.memory-status::before{
-    content:"● ";
-}
-
-.memory-card img{
-    width:100%;
-    aspect-ratio:16/10;
-    object-fit:cover;
-    margin-top:16px;
-    border:1px solid #172532;
-    display:block;
-    opacity:.88;
-    transition:.25s;
-}
-
-.memory-card:hover img{
-    opacity:1;
+    margin-top:5px;
+    color:#dce7e9;
 }
 
 /* =========================
-   MEMORY MODAL
+   ZODIAC
 ========================= */
 
-.modal{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.82);
-    backdrop-filter:blur(8px);
-    display:none;
+.zodiac-grid{
+    display:grid;
+    grid-template-columns:1fr auto 1fr;
     align-items:center;
-    justify-content:center;
-    padding:20px;
-    z-index:100;
+    gap:20px;
 }
 
-.modal.open{
-    display:flex;
-}
-
-.modal-box{
-    width:min(1000px,95vw);
-    max-height:92vh;
-    overflow:auto;
-    background:#071019;
+.zodiac-card{
     border:1px solid var(--border);
-    box-shadow:0 0 50px rgba(0,0,0,.7);
+    padding:25px;
+    text-align:center;
+    background:#040a0c;
 }
 
-.modal-top{
-    display:flex;
-    justify-content:space-between;
-    padding:14px 18px;
-    border-bottom:1px solid var(--border);
+.zodiac-symbol{
+    font-size:48px;
+    margin-bottom:10px;
+}
+
+.zodiac-name{
+    color:var(--green);
+    font-size:18px;
+}
+
+.zodiac-date{
     color:var(--muted);
+    font-size:11px;
+    margin-top:7px;
 }
 
-.close{
-    background:none;
-    border:0;
-    color:var(--red);
-    font-family:inherit;
-    cursor:pointer;
-    font-size:14px;
+.zodiac-x{
+    color:var(--pink);
+    font-size:30px;
 }
 
-.modal-image{
+.gpt-box{
+    margin-top:18px;
+    border:1px solid var(--border);
     padding:18px;
 }
 
-.modal-image img{
-    width:100%;
-    display:block;
-}
-
-.modal-info{
-    padding:0 18px 20px;
-    color:var(--muted);
-    font-size:12px;
-}
-
-/* =========================
-   EXECUTION
-========================= */
-
-.execution{
-    padding:25px;
-}
-
-.terminal-output{
-    min-height:210px;
-    background:#03070b;
-    border:1px solid #14202b;
-    padding:20px;
-    line-height:1.9;
-    color:#8194a5;
-    overflow:auto;
-}
-
-.output-green{
-    color:var(--green);
-}
-
-.output-pink{
-    color:var(--pink);
-}
-
-.output-cyan{
+.gpt-header{
     color:var(--cyan);
+    margin-bottom:12px;
 }
 
-.output-yellow{
-    color:var(--yellow);
+.gpt-result{
+    display:none;
+    color:#b7c5c8;
+    line-height:1.7;
 }
 
-.progress{
-    height:5px;
-    background:#111c26;
-    margin-top:20px;
-    overflow:hidden;
-}
-
-.progress-bar{
-    height:100%;
-    width:0%;
-    background:var(--green);
-    transition:width .4s;
+.gpt-result strong{
+    color:var(--green);
 }
 
 /* =========================
-   FINAL
+   ANIME MODULE
 ========================= */
 
-.final{
-    text-align:center;
-    padding:65px 20px 80px;
-}
-
-.final-small{
-    color:var(--muted);
-    font-size:12px;
-    margin-bottom:22px;
-}
-
-.final h2{
-    font-size:clamp(32px,7vw,70px);
-    letter-spacing:5px;
-    color:#f3f7fa;
-    margin-bottom:25px;
-}
-
-.final-code{
-    display:inline-block;
-    text-align:left;
-    background:#050a0f;
+.anime-box{
     border:1px solid var(--border);
-    padding:20px 25px;
+    padding:25px;
+    background:
+        radial-gradient(circle at center,rgba(255,150,50,.06),transparent 55%),
+        #05090b;
+    text-align:center;
+}
+
+.jp{
+    font-size:clamp(35px,8vw,70px);
+    color:#f5f0dd;
+    letter-spacing:4px;
+    text-shadow:0 0 18px rgba(255,190,90,.2);
+}
+
+.jp-translation{
+    color:var(--gold);
+    margin-top:12px;
+}
+
+.anime-code{
+    margin-top:18px;
+    color:#7e9297;
+    font-size:11px;
+}
+
+/* =========================
+   PENDANT
+========================= */
+
+.artifact{
+    border:1px solid var(--border);
+    padding:25px;
+    background:#03090b;
+}
+
+.artifact-grid{
+    display:grid;
+    grid-template-columns:150px 1fr;
+    gap:25px;
+    align-items:center;
+}
+
+.pendant{
+    width:120px;
+    height:75px;
+    margin:auto;
+    border:2px solid var(--gold);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 0 18px rgba(255,216,107,.12);
+}
+
+.pendant-eyes{
+    font-size:30px;
+    letter-spacing:3px;
+}
+
+.artifact-title{
+    color:var(--gold);
+}
+
+.artifact-text{
+    color:#a9b7ba;
+    line-height:1.7;
+    margin-top:8px;
+}
+
+/* =========================
+   PROCESSING
+========================= */
+
+.process-box{
+    border:1px solid var(--border);
+    padding:22px;
+    background:#03090b;
+}
+
+.process-line{
+    margin:8px 0;
+    color:#aab9bc;
+}
+
+.ok{
     color:var(--green);
-    font-size:14px;
 }
 
-.final-message{
-    margin-top:30px;
+.progress-text{
+    color:var(--green);
+    margin:15px 0;
+    overflow:hidden;
+    white-space:nowrap;
+}
+
+.result-button{
+    background:transparent;
+    border:1px solid var(--green);
+    color:var(--green);
+    padding:10px 15px;
+    font-family:inherit;
+    cursor:pointer;
+}
+
+.final-result{
+    display:none;
+    margin-top:20px;
+}
+
+/* =========================
+   CONCLUSION
+========================= */
+
+.conclusion{
+    border:1px solid #315050;
+    padding:25px;
+    background:#040a0c;
+}
+
+.conclusion pre{
+    white-space:pre-wrap;
+    color:#b8c5c7;
+    font-family:inherit;
+    line-height:1.7;
+}
+
+.human-result{
     color:var(--pink);
-    font-size:14px;
-    opacity:0;
-    transition:opacity 2s;
+    font-size:clamp(28px,6vw,55px);
+    text-align:center;
+    margin:25px 0;
+    text-shadow:0 0 20px rgba(255,111,145,.25);
 }
 
-.final-message.visible{
-    opacity:1;
+.love-code{
+    border:1px solid var(--border);
+    padding:18px;
+    color:var(--green);
+    overflow-x:auto;
+}
+
+/* =========================
+   FINAL PROTOCOL
+========================= */
+
+.final-protocol{
+    margin-top:40px;
+    border-top:1px solid var(--border);
+    padding-top:25px;
+    text-align:center;
+}
+
+.final-title{
+    color:var(--green);
+    letter-spacing:3px;
+    font-size:18px;
+}
+
+.final-status{
+    margin-top:20px;
+    line-height:2;
+}
+
+.running{
+    color:var(--green);
+}
+
+.shutdown{
+    color:var(--pink);
 }
 
 /* =========================
    FOOTER
 ========================= */
 
-.footer{
+footer{
     text-align:center;
-    color:#334452;
+    margin-top:45px;
+    color:#405256;
     font-size:10px;
-    padding:15px;
-    border-top:1px solid var(--border);
 }
 
 /* =========================
-   RESPONSIVE
+   MOBILE
 ========================= */
 
 @media(max-width:700px){
 
-    .content{
-        padding:20px;
+    #app{
+        padding:15px 10px 50px;
     }
 
-    .status-grid{
+    .system-grid,
+    .memory-grid,
+    .zodiac-grid{
         grid-template-columns:1fr;
     }
 
-    .memory-grid{
+    .zodiac-x{
+        transform:rotate(90deg);
+        text-align:center;
+    }
+
+    .artifact-grid{
         grid-template-columns:1fr;
+        text-align:center;
     }
 
-    .system-header h1{
-        letter-spacing:4px;
+    .web-visual{
+        height:280px;
     }
 
-    .code{
-        font-size:12px;
+    .counter{
+        letter-spacing:0;
     }
 }
-
 </style>
 </head>
 
 <body>
 
-<div class="system-window">
+<!-- =========================
+     BOOT SCREEN
+========================= -->
 
-    <div class="window-bar">
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="window-title">daniel_system.exe</div>
-    </div>
+<div id="boot">
 
-    <div class="content">
+    <div class="boot-box">
 
-        <!-- =========================
-             BOOT SCREEN
-        ========================== -->
+        <div class="boot-title">
+            DANIEL_SYSTEM.exe
+        </div>
 
-        <section class="boot">
+        <div class="boot-line">
+            &gt; initializing relationship protocol...
+        </div>
 
-            <div class="boot-line">
-                SYSTEM :: initializing...
-            </div>
+        <div class="boot-line">
+            &gt; loading memory core...
+        </div>
 
-            <div class="boot-line">
-                MEMORY :: loading special memories...
-            </div>
+        <div class="boot-line">
+            &gt; establishing emotional connection...
+        </div>
 
-            <div class="boot-line">
-                CONNECTION :: <span>stable</span>
-            </div>
+        <div class="boot-line">
+            &gt; checking system integrity...
+        </div>
 
-            <div class="boot-line boot-status">
-                STATUS :: something beautiful detected<span class="cursor"></span>
-            </div>
+        <div class="boot-line">
+            &gt; LOVE.exe detected.
+        </div>
 
-        </section>
-
-
-        <!-- =========================
-             SYSTEM HEADER
-        ========================== -->
-
-        <header class="system-header">
-
-            <div class="system-symbol">♥</div>
-
-            <h1>DANIEL SYSTEM</h1>
-
-            <p>
-                uma pequena experiência sobre uma variável que mudou o sistema.
-            </p>
-
-        </header>
-
-
-        <!-- =========================
-             SYSTEM STATUS
-        ========================== -->
-
-        <section class="panel">
-
-            <div class="panel-header">
-                <span>SYSTEM_STATUS</span>
-                <span class="active">● ONLINE</span>
-            </div>
-
-            <div class="panel-body">
-
-                <div class="status-grid">
-
-                    <div class="status">
-                        <div class="status-label">CONNECTION</div>
-                        <div class="status-value">STABLE</div>
-                    </div>
-
-                    <div class="status">
-                        <div class="status-label">MEMORY</div>
-                        <div class="status-value">4 FILES LOADED</div>
-                    </div>
-
-                    <div class="status">
-                        <div class="status-label">SYSTEM RESPONSE</div>
-                        <div class="status-value pink">UNEXPECTED</div>
-                    </div>
-
-                    <div class="status">
-                        <div class="status-label">ERRORS</div>
-                        <div class="status-value">0 CRITICAL</div>
-                    </div>
-
-                    <div class="status">
-                        <div class="status-label">PROTOCOL</div>
-                        <div class="status-value yellow">DO NOT RUSH</div>
-                    </div>
-
-                    <div class="status">
-                        <div class="status-label">CURRENT STATE</div>
-                        <div class="status-value">HAPPY</div>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             CORE CODE
-        ========================== -->
-
-        <section class="panel">
-
-            <div class="panel-header">
-                <span>CORE / relationship.js</span>
-                <span class="active">READ ONLY</span>
-            </div>
-
-            <div class="panel-body">
-
-                <div class="code">
-
-                    <div class="line">
-                        <span class="num">01</span>
-                        <span class="keyword">const</span>
-                        <span class="variable">system</span> =
-                        <span class="function">initialize</span>();
-                    </div>
-
-                    <div class="line">
-                        <span class="num">02</span>
-                    </div>
-
-                    <div class="line">
-                        <span class="num">03</span>
-                        <span class="variable">system</span>.configuration = {
-                    </div>
-
-                    <div class="line">
-                        <span class="num">04</span>
-                        &nbsp;&nbsp;&nbsp;&nbsp;connection:
-                        <span class="string">"genuine"</span>,
-                    </div>
-
-                    <div class="line">
-                        <span class="num">05</span>
-                        &nbsp;&nbsp;&nbsp;&nbsp;trust:
-                        <span class="string">"growing"</span>,
-                    </div>
-
-                    <div class="line">
-                        <span class="num">06</span>
-                        &nbsp;&nbsp;&nbsp;&nbsp;freedom:
-                        <span class="string">true</span>,
-                    </div>
-
-                    <div class="line">
-                        <span class="num">07</span>
-                        &nbsp;&nbsp;&nbsp;&nbsp;laughter:
-                        <span class="string">"unlimited"</span>,
-                    </div>
-
-                    <div class="line">
-                        <span class="num">08</span>
-                        &nbsp;&nbsp;&nbsp;&nbsp;memories:
-                        <span class="string">4</span>
-                    </div>
-
-                    <div class="line">
-                        <span class="num">09</span>
-                        };
-                    </div>
-
-                    <div class="line">
-                        <span class="num">10</span>
-                    </div>
-
-                    <div class="line">
-                        <span class="num">11</span>
-                        <span class="comment">// no manual override required.</span>
-                    </div>
-
-                    <div class="line">
-                        <span class="num">12</span>
-                        <span class="comment">// the system seems to know what it is doing.</span>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             COMMAND CENTER
-        ========================== -->
-
-        <section class="panel">
-
-            <div class="panel-header">
-                <span>COMMAND_CENTER</span>
-                <span>USER ACCESS: GRANTED</span>
-            </div>
-
-            <div class="panel-body">
-
-                <div class="code">
-                    <span class="comment">$ select_operation --available</span>
-                </div>
-
-                <div class="command-bar">
-
-                    <button class="command"
-                            onclick="scrollToSection('memories')">
-                        [1] ACCESS_MEMORIES
-                    </button>
-
-                    <button class="command"
-                            onclick="runSystem()">
-                        [2] RUN_DIAGNOSTIC
-                    </button>
-
-                    <button class="command"
-                            onclick="scrollToSection('final')">
-                        [3] EXECUTE_FINAL_PROTOCOL
-                    </button>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             MEMORIES
-        ========================== -->
-
-        <section class="panel" id="memories">
-
-            <div class="panel-header">
-                <span>MEMORY_DATABASE</span>
-                <span class="active">4 RECORDS FOUND</span>
-            </div>
-
-            <div class="panel-body">
-
-                <div class="code" style="margin-bottom:20px;">
-                    <span class="comment">
-                        // encrypted memories detected
-                    </span>
-                    <br>
-                    <span class="comment">
-                        // visual data available for authorized user
-                    </span>
-                </div>
-
-
-                <div class="memory-grid">
-
-
-                    <!-- MEMORY 01 -->
-
-                    <div class="memory-card"
-                         onclick="openMemory(
-                         '01 / FIRST_CONNECTION',
-                         'memories/01-first-connection.jpeg'
-                         )">
-
-                        <div class="memory-id">
-                            MEMORY_001
-                        </div>
-
-                        <div class="memory-name">
-                            FIRST_CONNECTION
-                        </div>
-
-                        <div class="memory-status">
-                            DATA INTACT
-                        </div>
-
-                        <img src="memories/01-first-connection.jpeg"
-                             alt="Memory 001">
-
-                    </div>
-
-
-                    <!-- MEMORY 02 -->
-
-                    <div class="memory-card"
-                         onclick="openMemory(
-                         '02 / WHATSAPP TITLES',
-                         'memories/02-whatsapp-titles.jpeg'
-                         )">
-
-                        <div class="memory-id">
-                            MEMORY_002
-                        </div>
-
-                        <div class="memory-name">
-                            WHATSAPP_TITLES
-                        </div>
-
-                        <div class="memory-status">
-                            DATA INTACT
-                        </div>
-
-                        <img src="memories/02-whatsapp-titles.jpeg"
-                             alt="Memory 002">
-
-                    </div>
-
-
-                    <!-- MEMORY 03 -->
-
-                    <div class="memory-card"
-                         onclick="openMemory(
-                         '03 / SMALL DETAILS',
-                         'memories/03-small-details.jpeg'
-                         )">
-
-                        <div class="memory-id">
-                            MEMORY_003
-                        </div>
-
-                        <div class="memory-name">
-                            SMALL_DETAILS
-                        </div>
-
-                        <div class="memory-status">
-                            DATA INTACT
-                        </div>
-
-                        <img src="memories/03-small-details.jpeg"
-                             alt="Memory 003">
-
-                    </div>
-
-
-                    <!-- MEMORY 04 -->
-
-                    <div class="memory-card"
-                         onclick="openMemory(
-                         '04 / AT THE TABLE',
-                         'memories/04-at-the-table.jpeg'
-                         )">
-
-                        <div class="memory-id">
-                            MEMORY_004
-                        </div>
-
-                        <div class="memory-name">
-                            AT_THE_TABLE
-                        </div>
-
-                        <div class="memory-status">
-                            DATA INTACT
-                        </div>
-
-                        <img src="memories/04-at-the-table.jpeg"
-                             alt="Memory 004">
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             DIAGNOSTIC
-        ========================== -->
-
-        <section class="panel">
-
-            <div class="panel-header">
-                <span>DIAGNOSTIC / system_check.sh</span>
-                <span>READY</span>
-            </div>
-
-            <div class="execution">
-
-                <div class="terminal-output" id="terminalOutput">
-
-                    <div>
-                        <span class="output-cyan">$</span>
-                        ./system_check.sh
-                    </div>
-
-                    <br>
-
-                    <div>
-                        awaiting execution...
-                    </div>
-
-                </div>
-
-                <div class="progress">
-                    <div class="progress-bar"
-                         id="progressBar"></div>
-                </div>
-
-                <button class="command"
-                        onclick="runSystem()"
-                        style="margin-top:18px;">
-                    RUN SYSTEM CHECK
-                </button>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             FINAL PROTOCOL
-        ========================== -->
-
-        <section class="panel" id="final">
-
-            <div class="panel-header">
-                <span>FINAL_PROTOCOL</span>
-                <span class="active">AUTHORIZED</span>
-            </div>
-
-            <div class="final">
-
-                <div class="final-small">
-                    SYSTEM HAS REACHED A CONCLUSION
-                </div>
-
-                <div class="code"
-                     style="margin-bottom:30px;">
-
-                    <div>
-                        <span class="keyword">if</span>
-                        (connection.isReal) {
-                    </div>
-
-                    <div style="padding-left:25px;">
-                        <span class="function">execute</span>(
-                        <span class="string">"what was never said"</span>
-                        );
-                    </div>
-
-                    <div>
-                        }
-                    </div>
-
-                </div>
-
-
-                <div class="final-code">
-
-                    <div>
-                        <span class="keyword">const</span>
-                        <span class="variable">finalOutput</span> =
-                    </div>
-
-                    <div style="padding-left:20px;">
-                        <span class="string">
-                            "I LOVE YOU"
-                        </span>;
-                    </div>
-
-                </div>
-
-
-                <div class="final-message"
-                     id="finalMessage">
-
-                    &gt; execution complete.<br>
-                    &gt; no rollback available. ❤️
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <div class="footer">
-
-            DANIEL_SYSTEM.exe · version 1.0 ·
-            built with memories, chaos & affection
-
+        <div class="boot-progress">
+            <span></span>
         </div>
 
     </div>
@@ -1040,48 +794,865 @@ body{
 
 
 <!-- =========================
-     MEMORY MODAL
+     MAIN APP
 ========================= -->
 
-<div class="modal" id="memoryModal">
+<div id="app" class="hidden">
 
-    <div class="modal-box">
+<header>
 
-        <div class="modal-top">
+    <div class="logo">
+        DANIEL_SYSTEM.exe
+    </div>
 
-            <span id="modalTitle">
-                MEMORY
-            </span>
+    <div class="status">
+        SYSTEM ONLINE
+    </div>
 
-            <button class="close"
-                    onclick="closeMemory()">
-                [ CLOSE ]
+</header>
+
+
+<!-- =========================
+     01 — LOGIN
+========================= -->
+
+<section id="login" class="login-screen">
+
+    <div class="terminal">
+
+        <div class="login-header">
+            02 — LOGIN / ACCESS
+        </div>
+
+        <div class="login-row">
+            USER IDENTIFIED
+        </div>
+
+        <div class="login-row">
+            USER_ID:
+            <span class="prompt">DANIEL</span>
+        </div>
+
+        <div class="login-row">
+            ACCESS LEVEL:
+            <span class="prompt">████████</span>
+        </div>
+
+        <div class="login-row">
+            AUTHENTICATING...
+        </div>
+
+        <div class="access">
+            ACCESS GRANTED.
+        </div>
+
+        <div class="password-area">
+
+            <div class="password-label">
+                &gt; ENTER DECODED PASSWORD
+            </div>
+
+            <input
+                id="password"
+                class="password-input"
+                type="password"
+                placeholder="Enter password..."
+                autocomplete="off"
+            >
+
+            <button
+                id="loginButton"
+                class="login-button"
+            >
+                &gt; ACCESS SYSTEM
             </button>
 
-        </div>
-
-        <div class="modal-image">
-
-            <img id="modalImage"
-                 src=""
-                 alt="Memory">
-
-        </div>
-
-        <div class="modal-info">
-
-            MEMORY STATUS ::
-            <span style="color:var(--green)">
-                VERIFIED
-            </span>
-
-            <br><br>
-
-            visual archive opened successfully.
+            <div
+                id="loginError"
+                class="login-error"
+            ></div>
 
         </div>
 
     </div>
+
+</section>
+
+
+<!-- EVERYTHING AFTER LOGIN -->
+
+<div id="systemContent" class="hidden">
+
+
+<!-- =========================
+     03 — DASHBOARD
+========================= -->
+
+<section class="section">
+
+    <div class="terminal">
+
+        <div class="terminal-title">
+            03 — DASHBOARD
+        </div>
+
+        <div class="muted">
+            DANIEL_SYSTEM :: MAINFRAME
+        </div>
+
+        <br>
+
+        <div class="system-grid">
+
+            <div class="system-item">
+                SYSTEM STATUS
+                <span class="online">● ONLINE</span>
+            </div>
+
+            <div class="system-item">
+                MEMORY CORE
+                <span class="online">● ACTIVE</span>
+            </div>
+
+            <div class="system-item">
+                CONNECTION
+                <span class="online">● STABLE</span>
+            </div>
+
+            <div class="system-item">
+                LOVE.exe
+                <span class="online">● RUNNING</span>
+            </div>
+
+        </div>
+
+        <div class="module-list">
+
+            <div>&gt; COMMAND_CENTER</div>
+            <div>&gt; MEMORY_DATABASE</div>
+            <div>&gt; CONNECTION_LOG</div>
+            <div>&gt; SYSTEM_ANALYSIS</div>
+            <div>&gt; UNKNOWN_MODULE</div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     TIME SINCE MATCH
+========================= -->
+
+<section class="section">
+
+    <div class="section-title">
+        CONNECTION UPTIME
+    </div>
+
+    <div class="counter-box">
+
+        <div class="counter-label">
+            TIME SINCE THE FIRST MATCH
+        </div>
+
+        <div
+            id="relationshipCounter"
+            class="counter"
+        >
+            00 DAYS · 00:00:00
+        </div>
+
+        <div class="counter-sub">
+            CONNECTION ESTABLISHED :: 11 JUL 2026
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     COMMAND CENTER
+========================= -->
+
+<section class="section">
+
+    <div class="terminal">
+
+        <div class="terminal-title">
+            COMMAND_CENTER
+        </div>
+
+        <div>
+            <span class="prompt">&gt;</span>
+            system --status
+        </div>
+
+        <br>
+
+        <div class="online">
+            SYSTEM STATUS :: ACTIVE
+        </div>
+
+        <div class="online">
+            CONNECTION :: STABLE
+        </div>
+
+        <div class="online">
+            LOVE.exe :: RUNNING
+        </div>
+
+        <br>
+
+        <div class="muted">
+            &gt; relationship.js loaded successfully.
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     MEMORY DATABASE
+========================= -->
+
+<section class="section">
+
+    <div class="section-title">
+        MEMORY_DATABASE
+    </div>
+
+    <div class="memory-grid">
+
+        <!-- MEMORY 01 -->
+
+        <div class="memory">
+
+            <img
+                src="memories/01-first-connection.jpeg"
+                alt="First connection"
+            >
+
+            <div class="memory-info">
+
+                <div class="memory-number">
+                    MEMORY_01
+                </div>
+
+                <div class="memory-name">
+                    The Beginning
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- MEMORY 02 -->
+
+        <div class="memory">
+
+            <img
+                src="memories/02-whatsapp-titles.jpeg"
+                alt="WhatsApp titles"
+            >
+
+            <div class="memory-info">
+
+                <div class="memory-number">
+                    MEMORY_02
+                </div>
+
+                <div class="memory-name">
+                    Names We Chose
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- MEMORY 03 -->
+
+        <div class="memory">
+
+            <img
+                src="memories/03-small-details.jpeg"
+                alt="Small details"
+            >
+
+            <div class="memory-info">
+
+                <div class="memory-number">
+                    MEMORY_03
+                </div>
+
+                <div class="memory-name">
+                    Small Details
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- MEMORY 04 -->
+
+        <div class="memory">
+
+            <img
+                src="memories/04-at-the-table.jpeg"
+                alt="At the table"
+            >
+
+            <div class="memory-info">
+
+                <div class="memory-number">
+                    MEMORY_04
+                </div>
+
+                <div class="memory-name">
+                    Around the Table
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     WEB CONNECTION
+========================= -->
+
+<section class="section">
+
+    <div class="section-title">
+        UNKNOWN_MODULE :: WEB_CONNECTION
+    </div>
+
+    <div class="web-card">
+
+        <div class="web-title">
+            &gt; I HAVE AN IDEA...
+        </div>
+
+        <div class="web-subtitle">
+            CONNECTION PATTERN DETECTED
+        </div>
+
+        <div class="web-visual">
+
+            <svg
+                class="web-svg"
+                viewBox="0 0 800 330"
+                preserveAspectRatio="xMidYMid meet"
+            >
+
+                <!-- network -->
+
+                <line class="web-line"
+                    x1="400" y1="165"
+                    x2="130" y2="60"/>
+
+                <line class="web-line"
+                    x1="400" y1="165"
+                    x2="670" y2="60"/>
+
+                <line class="web-line"
+                    x1="400" y1="165"
+                    x2="100" y2="250"/>
+
+                <line class="web-line"
+                    x1="400" y1="165"
+                    x2="700" y2="250"/>
+
+                <line class="web-line"
+                    x1="130" y1="60"
+                    x2="670" y2="60"/>
+
+                <line class="web-line"
+                    x1="100" y1="250"
+                    x2="700" y2="250"/>
+
+                <line class="web-line"
+                    x1="130" y1="60"
+                    x2="100" y2="250"/>
+
+                <line class="web-line"
+                    x1="670" y1="60"
+                    x2="700" y2="250"/>
+
+                <!-- nodes -->
+
+                <circle class="web-node" cx="130" cy="60" r="5"/>
+                <circle class="web-node" cx="670" cy="60" r="5"/>
+                <circle class="web-node" cx="100" cy="250" r="5"/>
+                <circle class="web-node" cx="700" cy="250" r="5"/>
+
+                <circle class="web-node-pink" cx="400" cy="165" r="8"/>
+
+                <circle
+                    class="web-center"
+                    cx="400"
+                    cy="165"
+                    r="28"
+                />
+
+                <text
+                    x="400"
+                    y="170"
+                    text-anchor="middle"
+                    fill="#63ff9b"
+                    font-size="11"
+                    font-family="Courier New"
+                >
+                    YOU
+                </text>
+
+            </svg>
+
+            <div class="web-message">
+
+                <div class="web-message-main">
+                    You in my web.
+                </div>
+
+                <div class="web-message-sub">
+                    CONNECTION: IRREVERSIBLE
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="muted">
+            &gt; network detected.
+            &gt; two variables connected.
+            &gt; no escape protocol found.
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     ZODIAC
+========================= -->
+
+<section class="section">
+
+    <div class="section-title">
+        SYSTEM_ANALYSIS :: ZODIAC
+    </div>
+
+    <div class="zodiac-grid">
+
+        <div class="zodiac-card">
+
+            <div class="zodiac-symbol">
+                ♈
+            </div>
+
+            <div class="zodiac-name">
+                ARIES
+            </div>
+
+            <div class="zodiac-date">
+                01 APRIL
+            </div>
+
+        </div>
+
+        <div class="zodiac-x">
+            ×
+        </div>
+
+        <div class="zodiac-card">
+
+            <div class="zodiac-symbol">
+                ♐
+            </div>
+
+            <div class="zodiac-name">
+                SAGITTARIUS
+            </div>
+
+            <div class="zodiac-date">
+                18 DECEMBER
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="gpt-box">
+
+        <div class="gpt-header">
+            &gt; ASK GPT
+        </div>
+
+        <div class="muted">
+            Analyze relationship compatibility...
+        </div>
+
+        <button
+            id="gptButton"
+            class="command-button"
+        >
+            &gt; ASK GPT
+        </button>
+
+        <div
+            id="gptResult"
+            class="gpt-result"
+        >
+
+            <br>
+
+            <strong>GPT ANALYSIS:</strong>
+
+            <br><br>
+
+            Aries × Sagittarius detected.
+
+            <br><br>
+
+            Fire + Fire.
+
+            <br>
+
+            Independence + adventure.
+
+            <br>
+
+            Curiosity + intensity.
+
+            <br>
+
+            Two people who need freedom,
+            but also know how to choose each other.
+
+            <br><br>
+
+            Compatibility matrix:
+            <strong>HIGH</strong>
+
+            <br><br>
+
+            Emotional chemistry:
+            <strong>DETECTED</strong>
+
+            <br>
+
+            Attraction:
+            <strong>STABLE</strong>
+
+            <br>
+
+            Chaos potential:
+            <strong>██████████ 100%</strong>
+
+            <br><br>
+
+            <strong>
+                RESULT:
+                BEST ZODIAC COMBINATION DETECTED.
+            </strong>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     ANIME MODULE
+========================= -->
+
+<section class="section">
+
+    <div class="section-title">
+        UNKNOWN_MODULE :: FIRE_PROTOCOL
+    </div>
+
+    <div class="anime-box">
+
+        <div class="jp">
+            心を燃やせ
+        </div>
+
+        <div class="jp-translation">
+            INCENDIE SEU CORAÇÃO
+        </div>
+
+        <div class="anime-code">
+
+            &gt; FIRE_PROTOCOL.exe<br>
+            &gt; PASSION DETECTED<br>
+            &gt; SPIRIT STATUS: ACTIVE<br>
+            &gt; HEART: STILL BURNING
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     PENDANT
+========================= -->
+
+<section class="section">
+
+    <div class="section-title">
+        ARTIFACT_DATABASE :: PENDANT
+    </div>
+
+    <div class="artifact">
+
+        <div class="artifact-grid">
+
+            <div class="pendant">
+
+                <div class="pendant-eyes">
+                    👁️👁️
+                </div>
+
+            </div>
+
+            <div>
+
+                <div class="artifact-title">
+                    MY GAZE // ALWAYS WITH YOU
+                </div>
+
+                <div class="artifact-text">
+
+                    A small artifact carrying something
+                    much bigger than itself.
+
+                    <br><br>
+
+                    Wherever you go,
+                    my gaze goes with you.
+
+                    <br>
+
+                    Not to watch over you.
+
+                    <br>
+
+                    Just to remind you
+                    that a piece of me is there.
+
+                    <br><br>
+
+                    <span class="prompt">
+                        STATUS :: ALWAYS WITH YOU
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     08 — FINAL ANALYSIS
+========================= -->
+
+<section class="section">
+
+    <div class="terminal">
+
+        <div class="terminal-title">
+            08 — FINAL ANALYSIS
+        </div>
+
+        <div class="process-box">
+
+            <div class="muted">
+                &gt; process --all
+            </div>
+
+            <br>
+
+            <div class="process-line">
+                MEMORY .................... <span class="ok">OK</span>
+            </div>
+
+            <div class="process-line">
+                CHEMISTRY ................. <span class="ok">OK</span>
+            </div>
+
+            <div class="process-line">
+                LAUGHTER .................. <span class="ok">OK</span>
+            </div>
+
+            <div class="process-line">
+                TRUST ..................... <span class="ok">OK</span>
+            </div>
+
+            <div class="process-line">
+                AFFECTION ................. <span class="ok">OK</span>
+            </div>
+
+            <div class="process-line">
+                CONNECTION ................ <span class="ok">OK</span>
+            </div>
+
+            <br>
+
+            <div class="muted">
+                ANALYZING PATTERNS...
+            </div>
+
+            <div
+                id="progressText"
+                class="progress-text"
+            >
+                ████████████████████ 100%
+            </div>
+
+            <div class="ok">
+                RESULT GENERATED.
+            </div>
+
+            <br>
+
+            <button
+                id="resultButton"
+                class="result-button"
+            >
+                &gt; display result
+            </button>
+
+
+            <div
+                id="finalResult"
+                class="final-result"
+            >
+
+                <br>
+
+                <div class="conclusion">
+
+<pre>
+╔══════════════════════════════════════════════╗
+║             SYSTEM CONCLUSION                ║
+╠══════════════════════════════════════════════╣
+║                                              ║
+║  DATA ANALYSIS COMPLETE                     ║
+║                                              ║
+║  After processing all available data,        ║
+║  one variable could not be classified.       ║
+║                                              ║
+║  VARIABLE: FEELING                           ║
+║  STATUS: UNDEFINED                           ║
+║                                              ║
+║  Attempting human interpretation...          ║
+║                                              ║
+║  ...                                         ║
+║                                              ║
+║  ...                                         ║
+║                                              ║
+║  FOUND.                                      ║
+║                                              ║
+╚══════════════════════════════════════════════╝
+</pre>
+
+                    <div class="muted">
+                        &gt; translate --human
+                    </div>
+
+                    <div class="human-result">
+                        EU TE AMO.
+                    </div>
+
+                    <div class="love-code">
+
+<pre>
+for (int i = 0; i &lt; 1000; i++) {
+    printf("Te amo ❤️\n");
+}
+</pre>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     FINAL PROTOCOL
+========================= -->
+
+<section class="final-protocol">
+
+    <div class="final-title">
+        FINAL_PROTOCOL
+    </div>
+
+    <div class="final-status">
+
+        <div>
+            SYSTEM STATUS ::
+            <span class="running">ACTIVE</span>
+        </div>
+
+        <div>
+            CONNECTION ::
+            <span class="running">STABLE</span>
+        </div>
+
+        <div>
+            LOVE.exe ::
+            <span class="running">RUNNING</span>
+        </div>
+
+        <br>
+
+        <div class="shutdown">
+            [ SYSTEM WILL NOT SHUT DOWN ]
+        </div>
+
+    </div>
+
+</section>
+
+
+<footer>
+
+    DANIEL_SYSTEM.exe<br>
+    Relationship protocol // v1.0<br>
+    Built with memories, code and a little bit of chaos.
+
+</footer>
+
+</div>
 
 </div>
 
@@ -1089,192 +1660,264 @@ body{
 <script>
 
 /* =========================
-   SCROLL
+   BOOT
 ========================= */
 
-function scrollToSection(id){
+window.addEventListener("load", () => {
 
-    document
-        .getElementById(id)
-        .scrollIntoView({
-            behavior:"smooth"
-        });
+    setTimeout(() => {
 
-}
+        document.getElementById("boot")
+            .style.display = "none";
 
+        document.getElementById("app")
+            .classList.remove("hidden");
 
-/* =========================
-   MEMORY SYSTEM
-========================= */
-
-function openMemory(title,image){
-
-    document
-        .getElementById("modalTitle")
-        .textContent = title;
-
-    document
-        .getElementById("modalImage")
-        .src = image;
-
-    document
-        .getElementById("memoryModal")
-        .classList
-        .add("open");
-
-}
-
-
-function closeMemory(){
-
-    document
-        .getElementById("memoryModal")
-        .classList
-        .remove("open");
-
-}
-
-
-document
-    .getElementById("memoryModal")
-    .addEventListener("click",function(event){
-
-        if(event.target === this){
-            closeMemory();
-        }
-
-    });
-
-
-/* =========================
-   SYSTEM DIAGNOSTIC
-========================= */
-
-let running = false;
-
-function runSystem(){
-
-    if(running) return;
-
-    running = true;
-
-    const output =
-        document.getElementById("terminalOutput");
-
-    const bar =
-        document.getElementById("progressBar");
-
-    output.innerHTML = "";
-
-    const lines = [
-
-        ["$ ./system_check.sh","cyan"],
-
-        ["",""],
-
-        ["loading memories...",""],
-
-        ["memory_001 :: FOUND","green"],
-
-        ["memory_002 :: FOUND","green"],
-
-        ["memory_003 :: FOUND","green"],
-
-        ["memory_004 :: FOUND","green"],
-
-        ["",""],
-
-        ["checking connection...",""],
-
-        ["connection :: STABLE","green"],
-
-        ["",""],
-
-        ["checking compatibility...",""],
-
-        ["compatibility :: HIGH","yellow"],
-
-        ["",""],
-
-        ["checking unexpected feelings...",""],
-
-        ["warning :: impossible to quantify","pink"],
-
-        ["",""],
-
-        ["system conclusion :: beautiful","green"]
-
-    ];
-
-    let index = 0;
-
-    function nextLine(){
-
-        if(index >= lines.length){
-
-            bar.style.width = "100%";
-
-            setTimeout(()=>{
-
-                document
-                    .getElementById("finalMessage")
-                    .classList
-                    .add("visible");
-
-                running = false;
-
-            },600);
-
-            return;
-
-        }
-
-        const [text,type] = lines[index];
-
-        const div =
-            document.createElement("div");
-
-        if(type){
-
-            div.className =
-                "output-" + type;
-
-        }
-
-        div.textContent = text;
-
-        output.appendChild(div);
-
-        output.scrollTop =
-            output.scrollHeight;
-
-        bar.style.width =
-            ((index + 1) / lines.length * 100) + "%";
-
-        index++;
-
-        setTimeout(nextLine,180);
-
-    }
-
-    nextLine();
-
-}
-
-
-/* =========================
-   KEYBOARD SHORTCUT
-========================= */
-
-document.addEventListener("keydown",function(event){
-
-    if(event.key === "Escape"){
-
-        closeMemory();
-
-    }
+    }, 2500);
 
 });
+
+
+/* =========================
+   LOGIN
+========================= */
+
+const passwordInput =
+    document.getElementById("password");
+
+const loginButton =
+    document.getElementById("loginButton");
+
+const loginError =
+    document.getElementById("loginError");
+
+const loginScreen =
+    document.getElementById("login");
+
+const systemContent =
+    document.getElementById("systemContent");
+
+
+function login(){
+
+    const password =
+        passwordInput.value.trim();
+
+    if(password === "Avy jorrāelan"){
+
+        loginError.textContent =
+            "ACCESS GRANTED.";
+
+        loginError.style.color =
+            "#63ff9b";
+
+        setTimeout(() => {
+
+            loginScreen.classList.add("hidden");
+
+            systemContent.classList.remove("hidden");
+
+            window.scrollTo({
+                top:0,
+                behavior:"smooth"
+            });
+
+        },700);
+
+    }else{
+
+        loginError.textContent =
+            "ACCESS DENIED :: INVALID PASSWORD";
+
+        loginError.style.color =
+            "#ff5d6c";
+
+        passwordInput.value = "";
+
+    }
+
+}
+
+
+loginButton.addEventListener(
+    "click",
+    login
+);
+
+
+passwordInput.addEventListener(
+    "keydown",
+    function(event){
+
+        if(event.key === "Enter"){
+            login();
+        }
+
+    }
+);
+
+
+/* =========================
+   RELATIONSHIP COUNTER
+========================= */
+
+/*
+   MATCH DATE:
+   11 JULY 2026
+
+   The system calculates automatically
+   from this moment forward.
+*/
+
+const matchDate =
+    new Date("2026-07-11T00:00:00");
+
+
+function updateRelationshipCounter(){
+
+    const now = new Date();
+
+    let difference =
+        now.getTime() -
+        matchDate.getTime();
+
+    if(difference < 0){
+        difference = 0;
+    }
+
+    const totalSeconds =
+        Math.floor(difference / 1000);
+
+    const days =
+        Math.floor(
+            totalSeconds / 86400
+        );
+
+    const hours =
+        Math.floor(
+            (totalSeconds % 86400) / 3600
+        );
+
+    const minutes =
+        Math.floor(
+            (totalSeconds % 3600) / 60
+        );
+
+    const seconds =
+        totalSeconds % 60;
+
+
+    const formattedHours =
+        String(hours).padStart(2,"0");
+
+    const formattedMinutes =
+        String(minutes).padStart(2,"0");
+
+    const formattedSeconds =
+        String(seconds).padStart(2,"0");
+
+
+    document.getElementById(
+        "relationshipCounter"
+    ).textContent =
+        `${days} DAYS · ${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+
+}
+
+
+updateRelationshipCounter();
+
+setInterval(
+    updateRelationshipCounter,
+    1000
+);
+
+
+/* =========================
+   ASK GPT
+========================= */
+
+const gptButton =
+    document.getElementById("gptButton");
+
+const gptResult =
+    document.getElementById("gptResult");
+
+
+gptButton.addEventListener(
+    "click",
+    () => {
+
+        gptButton.textContent =
+            "> ANALYZING...";
+
+        setTimeout(() => {
+
+            gptResult.style.display =
+                "block";
+
+            gptButton.textContent =
+                "> ANALYSIS COMPLETE";
+
+        },1200);
+
+    }
+);
+
+
+/* =========================
+   FINAL RESULT
+========================= */
+
+const resultButton =
+    document.getElementById("resultButton");
+
+const finalResult =
+    document.getElementById("finalResult");
+
+
+resultButton.addEventListener(
+    "click",
+    () => {
+
+        finalResult.style.display =
+            "block";
+
+        resultButton.textContent =
+            "> RESULT DISPLAYED";
+
+        setTimeout(() => {
+
+            finalResult.scrollIntoView({
+                behavior:"smooth",
+                block:"center"
+            });
+
+        },100);
+
+    }
+);
+
+
+/* =========================
+   TERMINAL EFFECT
+========================= */
+
+const originalTitle =
+    document.title;
+
+let titleState = true;
+
+setInterval(() => {
+
+    document.title =
+        titleState
+        ? "DANIEL_SYSTEM.exe"
+        : "LOVE.exe :: RUNNING";
+
+    titleState = !titleState;
+
+},3000);
 
 </script>
 
