@@ -449,6 +449,101 @@ header{
     color:var(--green);
 }
 
+
+/* =========================
+   INTRO / SYSTEM STATUS
+========================= */
+
+.intro-screen{
+    text-align:center;
+    padding:18px 0 35px;
+}
+
+.intro-heart{
+    color:var(--pink);
+    font-size:20px;
+    margin-bottom:18px;
+}
+
+.intro-title{
+    color:#eef4f6;
+    font-size:clamp(38px,8vw,72px);
+    font-weight:bold;
+    letter-spacing:7px;
+    line-height:1.1;
+}
+
+.intro-subtitle{
+    color:#6f91b4;
+    margin-top:20px;
+    font-size:13px;
+}
+
+.system-status-panel{
+    border:1px solid var(--border);
+    background:#071014;
+    margin-top:8px;
+}
+
+.system-status-header{
+    padding:12px 14px;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    color:#71858b;
+    font-size:12px;
+}
+
+.system-status-online{
+    color:var(--green);
+}
+
+.status-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+    padding:25px 14px 14px;
+}
+
+.status-card{
+    border:1px solid var(--border);
+    border-radius:5px;
+    padding:20px 18px;
+    background:#071018;
+    min-height:82px;
+}
+
+.status-card-label{
+    color:#6f91b4;
+    font-size:11px;
+    margin-bottom:12px;
+}
+
+.status-card-value{
+    color:var(--green);
+    font-size:14px;
+}
+
+.status-card-value.warning{
+    color:var(--gold);
+}
+
+.status-card-value.unexpected{
+    color:var(--pink);
+}
+
+@media(max-width:700px){
+    .status-grid{
+        grid-template-columns:1fr;
+    }
+
+    .intro-title{
+        letter-spacing:4px;
+    }
+}
+
+
 /* =========================
    TIME COUNTER
 ========================= */
@@ -738,6 +833,11 @@ header{
     color:#a9b7ba;
     line-height:1.7;
     margin-top:8px;
+}
+
+
+.artifact-grid{
+    grid-template-columns:1fr;
 }
 
 /* =========================
@@ -1080,6 +1180,108 @@ footer{
 <!-- EVERYTHING AFTER LOGIN -->
 
 <div id="systemContent" class="hidden">
+
+
+<!-- =========================
+     SYSTEM INTRO
+========================= -->
+
+<section class="intro-screen">
+
+    <div class="intro-heart">♥</div>
+
+    <div class="intro-title">
+        DANIEL SYSTEM
+    </div>
+
+    <div class="intro-subtitle">
+        uma pequena experiência sobre uma variável que mudou o sistema.
+    </div>
+
+</section>
+
+
+<!-- =========================
+     SYSTEM STATUS
+========================= -->
+
+<section class="section">
+
+    <div class="system-status-panel">
+
+        <div class="system-status-header">
+
+            <span>SYSTEM_STATUS</span>
+
+            <span class="system-status-online">
+                ● ONLINE
+            </span>
+
+        </div>
+
+        <div class="status-grid">
+
+            <div class="status-card">
+                <div class="status-card-label">
+                    CONNECTION
+                </div>
+                <div class="status-card-value">
+                    STABLE
+                </div>
+            </div>
+
+            <div class="status-card">
+                <div class="status-card-label">
+                    MEMORY
+                </div>
+                <div class="status-card-value">
+                    4 FILES LOADED
+                </div>
+            </div>
+
+            <div class="status-card">
+                <div class="status-card-label">
+                    SYSTEM RESPONSE
+                </div>
+                <div class="status-card-value unexpected">
+                    UNEXPECTED
+                </div>
+            </div>
+
+            <div class="status-card">
+                <div class="status-card-label">
+                    ERRORS
+                </div>
+                <div class="status-card-value">
+                    0 CRITICAL
+                </div>
+            </div>
+
+            <div class="status-card">
+                <div class="status-card-label">
+                    PROTOCOL
+                </div>
+                <div class="status-card-value warning">
+                    DO NOT RESET
+                </div>
+            </div>
+
+            <div class="status-card">
+                <div class="status-card-label">
+                    CURRENT STATE
+                </div>
+                <div class="status-card-value">
+                    HAPPY
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
 
 
 <!-- =========================
@@ -1573,7 +1775,7 @@ footer{
         </div>
 
         <div class="jp-translation">
-            心を燃やせ :: FIRE_PROTOCOL
+            Set your heart ablaze
         </div>
 
         <div class="anime-code">
@@ -1603,14 +1805,6 @@ footer{
     <div class="artifact">
 
         <div class="artifact-grid">
-
-            <div class="pendant">
-
-                <div class="pendant-eyes">
-                    👁️👁️
-                </div>
-
-            </div>
 
             <div>
 
