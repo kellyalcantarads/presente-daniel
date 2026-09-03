@@ -117,6 +117,42 @@ a{
     to{width:100%}
 }
 
+
+.boot-actions{
+    margin-top:20px;
+    text-align:right;
+}
+
+.boot-button{
+    background:transparent;
+    border:1px solid var(--green);
+    color:var(--green);
+    padding:11px 18px;
+    font-family:inherit;
+    cursor:pointer;
+    letter-spacing:1px;
+    transition:.2s;
+}
+
+.boot-button:hover{
+    background:var(--green);
+    color:#020608;
+    box-shadow:0 0 18px rgba(99,255,155,.3);
+}
+
+.boot-button:disabled{
+    opacity:.35;
+    cursor:not-allowed;
+    box-shadow:none;
+}
+
+.boot-ready{
+    color:var(--green);
+    margin-top:14px;
+    min-height:16px;
+    font-size:12px;
+}
+
 /* =========================
    APP
 ========================= */
@@ -889,7 +925,17 @@ footer{
         </div>
 
         <div class="boot-progress">
-            <span></span>
+            <span id="bootProgressBar"></span>
+        </div>
+
+        <div class="boot-ready" id="bootReady">
+            &gt; SYSTEM CHECK IN PROGRESS...
+        </div>
+
+        <div class="boot-actions">
+            <button id="bootButton" class="boot-button" disabled>
+                &gt; INITIALIZE SYSTEM
+            </button>
         </div>
 
     </div>
@@ -955,8 +1001,8 @@ footer{
             Some memories may cause emotional instability.
         </div>
 
-        <button id="scanButton" class="scan-button">
-            &gt; CONTINUE
+        <button id="scanButton" class="scan-button" type="button">
+            &gt; CONTINUE TO LOGIN
         </button>
 
     </div>
@@ -1800,17 +1846,51 @@ for (int i = 0; i &lt; 1000; i++) {
    BOOT
 ========================= */
 
-window.addEventListener("load", () => {
+document.addEventListener("DOMContentLoaded", () => {
 
+    const boot =
+        document.getElementById("boot");
+
+    const app =
+        document.getElementById("app");
+
+    const bootButton =
+        document.getElementById("bootButton");
+
+    const bootReady =
+        document.getElementById("bootReady");
+
+    // The boot screen never depends on a timeout to advance.
+    // The button becomes available after the visual progress finishes.
     setTimeout(() => {
 
-        document.getElementById("boot")
-            .style.display = "none";
+        bootButton.disabled = false;
 
-        document.getElementById("app")
-            .classList.remove("hidden");
+        bootReady.textContent =
+            "> SYSTEM READY :: PRESS INITIALIZE";
 
-    }, 2500);
+    }, 2400);
+
+
+    bootButton.addEventListener("click", () => {
+
+        boot.style.display = "none";
+
+        app.classList.remove("hidden");
+
+        const scan =
+            document.getElementById("systemScan");
+
+        if(scan){
+            scan.classList.remove("hidden");
+        }
+
+        window.scrollTo({
+            top:0,
+            behavior:"instant"
+        });
+
+    });
 
 });
 
