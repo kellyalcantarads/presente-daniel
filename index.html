@@ -4,419 +4,955 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Daniel System</title>
+<title>DANIEL_SYSTEM.exe</title>
 
 <style>
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
+
+:root{
+    --bg:#05080d;
+    --panel:#0a1119;
+    --panel2:#0d1620;
+    --border:#1b2938;
+    --text:#d9e3ed;
+    --muted:#718293;
+    --green:#58f0b2;
+    --cyan:#62d9ff;
+    --pink:#ff79b8;
+    --yellow:#ffd66b;
+    --red:#ff687d;
+    --shadow:0 0 35px rgba(0,0,0,.45);
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:
+        radial-gradient(circle at 50% -10%,rgba(45,90,120,.15),transparent 40%),
+        var(--bg);
+    color:var(--text);
+    font-family:Consolas,"Courier New",monospace;
+    min-height:100vh;
+}
+
+/* =========================
+   TERMINAL WINDOW
+========================= */
+
+.system-window{
+    width:min(1100px,94%);
+    margin:25px auto 70px;
+    border:1px solid var(--border);
+    background:rgba(7,12,18,.96);
+    box-shadow:var(--shadow);
+    border-radius:12px;
+    overflow:hidden;
+}
+
+.window-bar{
+    height:43px;
+    background:#0b121a;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    padding:0 16px;
+    gap:8px;
+}
+
+.dot{
+    width:12px;
+    height:12px;
+    border-radius:50%;
+    background:#53616e;
+}
+
+.window-title{
+    margin-left:12px;
+    color:#718293;
+    font-size:13px;
+    letter-spacing:.5px;
+}
+
+.content{
+    padding:38px;
+}
+
+/* =========================
+   BOOT
+========================= */
+
+.boot{
+    min-height:390px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.boot-line{
+    margin:10px 0;
+    color:var(--green);
+    font-size:14px;
+}
+
+.boot-line span{
+    color:var(--muted);
+}
+
+.boot-status{
+    color:var(--pink);
+}
+
+.cursor{
+    display:inline-block;
+    width:8px;
+    height:17px;
+    background:var(--green);
+    margin-left:4px;
+    animation:blink 1s infinite;
+    vertical-align:middle;
+}
+
+@keyframes blink{
+    50%{opacity:0}
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.system-header{
+    text-align:center;
+    padding:30px 0 55px;
+}
+
+.system-symbol{
+    color:var(--pink);
+    font-size:28px;
+    margin-bottom:25px;
+}
+
+.system-header h1{
+    font-size:clamp(36px,7vw,76px);
+    letter-spacing:8px;
+    color:#edf4fa;
+    text-shadow:0 0 25px rgba(98,217,255,.12);
+}
+
+.system-header p{
+    margin-top:18px;
+    color:var(--muted);
+    font-size:14px;
+}
+
+/* =========================
+   PANELS
+========================= */
+
+.panel{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:8px;
+    margin-bottom:25px;
+    overflow:hidden;
+}
+
+.panel-header{
+    padding:13px 18px;
+    border-bottom:1px solid var(--border);
+    background:var(--panel2);
+    color:var(--muted);
+    font-size:13px;
+    display:flex;
+    justify-content:space-between;
+}
+
+.panel-header .active{
+    color:var(--green);
+}
+
+.panel-body{
+    padding:25px;
+}
+
+/* =========================
+   CODE
+========================= */
+
+.code{
+    line-height:1.9;
+    font-size:14px;
+    overflow-x:auto;
+}
+
+.line{
+    white-space:pre-wrap;
+}
+
+.num{
+    display:inline-block;
+    width:35px;
+    color:#334452;
+    user-select:none;
+}
+
+.keyword{
+    color:var(--pink);
+}
+
+.variable{
+    color:var(--cyan);
+}
+
+.string{
+    color:var(--green);
+}
+
+.comment{
+    color:#526473;
+}
+
+.function{
+    color:var(--yellow);
+}
+
+/* =========================
+   STATUS GRID
+========================= */
+
+.status-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+}
+
+.status{
+    padding:18px;
+    border:1px solid var(--border);
+    background:#081019;
+    border-radius:6px;
+}
+
+.status-label{
+    color:var(--muted);
+    font-size:11px;
+    margin-bottom:9px;
+}
+
+.status-value{
+    color:var(--green);
+    font-size:14px;
+}
+
+.status-value.pink{
+    color:var(--pink);
+}
+
+.status-value.yellow{
+    color:var(--yellow);
+}
+
+/* =========================
+   NAVIGATION
+========================= */
+
+.command-bar{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:25px;
+}
+
+.command{
+    border:1px solid var(--border);
+    background:#09121a;
+    color:var(--cyan);
+    padding:12px 17px;
+    border-radius:5px;
+    cursor:pointer;
+    font-family:inherit;
+    font-size:13px;
+    transition:.2s;
+}
+
+.command:hover{
+    border-color:var(--cyan);
+    background:#0d1b26;
+    transform:translateY(-2px);
+}
+
+/* =========================
+   MEMORY DATABASE
+========================= */
+
+.memory-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:18px;
+}
+
+.memory-card{
+    border:1px solid var(--border);
+    background:#080f16;
+    padding:18px;
+    cursor:pointer;
+    transition:.25s;
+    position:relative;
+    overflow:hidden;
+}
+
+.memory-card:hover{
+    border-color:var(--cyan);
+    transform:translateY(-3px);
+    box-shadow:0 0 20px rgba(98,217,255,.08);
+}
+
+.memory-id{
+    color:var(--muted);
+    font-size:11px;
+    margin-bottom:12px;
+}
+
+.memory-name{
+    color:var(--text);
+    font-size:16px;
+    margin-bottom:7px;
+}
+
+.memory-status{
+    color:var(--green);
+    font-size:11px;
+}
+
+.memory-status::before{
+    content:"● ";
+}
+
+.memory-card img{
+    width:100%;
+    aspect-ratio:16/10;
+    object-fit:cover;
+    margin-top:16px;
+    border:1px solid #172532;
+    display:block;
+    opacity:.88;
+    transition:.25s;
+}
+
+.memory-card:hover img{
+    opacity:1;
+}
+
+/* =========================
+   MEMORY MODAL
+========================= */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.82);
+    backdrop-filter:blur(8px);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:100;
+}
+
+.modal.open{
+    display:flex;
+}
+
+.modal-box{
+    width:min(1000px,95vw);
+    max-height:92vh;
+    overflow:auto;
+    background:#071019;
+    border:1px solid var(--border);
+    box-shadow:0 0 50px rgba(0,0,0,.7);
+}
+
+.modal-top{
+    display:flex;
+    justify-content:space-between;
+    padding:14px 18px;
+    border-bottom:1px solid var(--border);
+    color:var(--muted);
+}
+
+.close{
+    background:none;
+    border:0;
+    color:var(--red);
+    font-family:inherit;
+    cursor:pointer;
+    font-size:14px;
+}
+
+.modal-image{
+    padding:18px;
+}
+
+.modal-image img{
+    width:100%;
+    display:block;
+}
+
+.modal-info{
+    padding:0 18px 20px;
+    color:var(--muted);
+    font-size:12px;
+}
+
+/* =========================
+   EXECUTION
+========================= */
+
+.execution{
+    padding:25px;
+}
+
+.terminal-output{
+    min-height:210px;
+    background:#03070b;
+    border:1px solid #14202b;
+    padding:20px;
+    line-height:1.9;
+    color:#8194a5;
+    overflow:auto;
+}
+
+.output-green{
+    color:var(--green);
+}
+
+.output-pink{
+    color:var(--pink);
+}
+
+.output-cyan{
+    color:var(--cyan);
+}
+
+.output-yellow{
+    color:var(--yellow);
+}
+
+.progress{
+    height:5px;
+    background:#111c26;
+    margin-top:20px;
+    overflow:hidden;
+}
+
+.progress-bar{
+    height:100%;
+    width:0%;
+    background:var(--green);
+    transition:width .4s;
+}
+
+/* =========================
+   FINAL
+========================= */
+
+.final{
+    text-align:center;
+    padding:65px 20px 80px;
+}
+
+.final-small{
+    color:var(--muted);
+    font-size:12px;
+    margin-bottom:22px;
+}
+
+.final h2{
+    font-size:clamp(32px,7vw,70px);
+    letter-spacing:5px;
+    color:#f3f7fa;
+    margin-bottom:25px;
+}
+
+.final-code{
+    display:inline-block;
+    text-align:left;
+    background:#050a0f;
+    border:1px solid var(--border);
+    padding:20px 25px;
+    color:var(--green);
+    font-size:14px;
+}
+
+.final-message{
+    margin-top:30px;
+    color:var(--pink);
+    font-size:14px;
+    opacity:0;
+    transition:opacity 2s;
+}
+
+.final-message.visible{
+    opacity:1;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer{
+    text-align:center;
+    color:#334452;
+    font-size:10px;
+    padding:15px;
+    border-top:1px solid var(--border);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:700px){
+
+    .content{
+        padding:20px;
     }
 
-    html {
-        scroll-behavior: smooth;
+    .status-grid{
+        grid-template-columns:1fr;
     }
 
-    body {
-        background: #070b10;
-        color: #e8f0f7;
-        font-family: "Courier New", monospace;
-        min-height: 100vh;
-        overflow-x: hidden;
+    .memory-grid{
+        grid-template-columns:1fr;
     }
 
-    body::before {
-        content: "";
-        position: fixed;
-        inset: 0;
-        pointer-events: none;
-        background:
-            linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
-        background-size: 40px 40px;
-        z-index: -2;
+    .system-header h1{
+        letter-spacing:4px;
     }
 
-    body::after {
-        content: "";
-        position: fixed;
-        inset: 0;
-        pointer-events: none;
-        background: radial-gradient(circle at center, transparent 30%, rgba(0,0,0,0.55) 100%);
-        z-index: -1;
+    .code{
+        font-size:12px;
     }
+}
 
-    .container {
-        width: min(900px, 92%);
-        margin: auto;
-    }
-
-    .screen {
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 50px 0;
-    }
-
-    .terminal {
-        width: 100%;
-        background: rgba(10, 16, 23, 0.94);
-        border: 1px solid #263440;
-        border-radius: 14px;
-        overflow: hidden;
-        box-shadow: 0 0 60px rgba(0,0,0,0.5);
-    }
-
-    .terminal-header {
-        height: 42px;
-        background: #111923;
-        border-bottom: 1px solid #263440;
-        display: flex;
-        align-items: center;
-        padding: 0 15px;
-        gap: 8px;
-    }
-
-    .dot {
-        width: 11px;
-        height: 11px;
-        border-radius: 50%;
-        background: #586572;
-    }
-
-    .terminal-title {
-        margin-left: 10px;
-        font-size: 12px;
-        color: #758493;
-    }
-
-    .terminal-body {
-        padding: 45px;
-    }
-
-    .green {
-        color: #62e6a8;
-    }
-
-    .blue {
-        color: #79bfff;
-    }
-
-    .purple {
-        color: #c49cff;
-    }
-
-    .pink {
-        color: #ff9fc8;
-    }
-
-    .muted {
-        color: #73808d;
-    }
-
-    .cursor {
-        display: inline-block;
-        width: 8px;
-        height: 18px;
-        background: #62e6a8;
-        margin-left: 5px;
-        vertical-align: middle;
-        animation: blink 1s infinite;
-    }
-
-    @keyframes blink {
-        50% { opacity: 0; }
-    }
-
-    .boot {
-        font-size: 14px;
-        line-height: 1.9;
-        margin-bottom: 35px;
-    }
-
-    .hero {
-        text-align: center;
-        padding: 25px 0 35px;
-    }
-
-    .heart {
-        font-size: 55px;
-        display: block;
-        margin-bottom: 20px;
-        animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-        50% {
-            transform: scale(1.08);
-        }
-    }
-
-    h1 {
-        font-size: clamp(30px, 7vw, 58px);
-        letter-spacing: 5px;
-        margin-bottom: 15px;
-    }
-
-    .subtitle {
-        color: #8795a3;
-        font-size: 14px;
-        line-height: 1.8;
-    }
-
-    .status {
-        margin: 30px auto;
-        border: 1px solid #263440;
-        border-radius: 10px;
-        padding: 20px;
-        max-width: 600px;
-        text-align: left;
-        background: rgba(255,255,255,0.015);
-    }
-
-    .status-line {
-        display: flex;
-        justify-content: space-between;
-        gap: 20px;
-        padding: 7px 0;
-        border-bottom: 1px dashed #202c36;
-        font-size: 13px;
-    }
-
-    .status-line:last-child {
-        border-bottom: none;
-    }
-
-    .button {
-        display: inline-block;
-        margin-top: 20px;
-        padding: 15px 25px;
-        border: 1px solid #62e6a8;
-        color: #62e6a8;
-        background: transparent;
-        border-radius: 8px;
-        font-family: inherit;
-        font-size: 14px;
-        cursor: pointer;
-        transition: 0.3s;
-    }
-
-    .button:hover {
-        background: #62e6a8;
-        color: #07100c;
-        box-shadow: 0 0 25px rgba(98,230,168,0.25);
-    }
-
-    .story {
-        display: none;
-    }
-
-    .story.active {
-        display: block;
-        animation: fadeIn 0.7s ease;
-    }
-
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(15px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    .chapter-number {
-        font-size: 12px;
-        color: #62e6a8;
-        margin-bottom: 15px;
-    }
-
-    h2 {
-        font-size: clamp(24px, 5vw, 38px);
-        margin-bottom: 25px;
-        letter-spacing: 1px;
-    }
-
-    .story-text {
-        font-family: Arial, sans-serif;
-        color: #b8c3cc;
-        font-size: 17px;
-        line-height: 1.9;
-        margin-bottom: 30px;
-    }
-
-    .memory {
-        border-left: 2px solid #62e6a8;
-        padding: 15px 20px;
-        margin: 25px 0;
-        background: rgba(98,230,168,0.03);
-        color: #d8e1e8;
-        line-height: 1.7;
-    }
-
-    .symbol {
-        text-align: center;
-        font-size: 60px;
-        margin: 30px 0;
-    }
-
-    .navigation {
-        display: flex;
-        justify-content: space-between;
-        gap: 15px;
-        margin-top: 40px;
-        padding-top: 25px;
-        border-top: 1px solid #263440;
-    }
-
-    .nav-button {
-        padding: 12px 18px;
-        border: 1px solid #354552;
-        background: transparent;
-        color: #aebbc5;
-        border-radius: 7px;
-        cursor: pointer;
-        font-family: inherit;
-        transition: 0.3s;
-    }
-
-    .nav-button:hover {
-        border-color: #62e6a8;
-        color: #62e6a8;
-    }
-
-    .progress {
-        display: flex;
-        gap: 5px;
-        margin-bottom: 35px;
-    }
-
-    .progress span {
-        height: 3px;
-        flex: 1;
-        background: #263440;
-        border-radius: 3px;
-    }
-
-    .progress span.active {
-        background: #62e6a8;
-    }
-
-    .final {
-        text-align: center;
-        padding: 25px 0;
-    }
-
-    .final-message {
-        font-family: Arial, sans-serif;
-        font-size: 19px;
-        line-height: 2;
-        color: #d7dfe5;
-        max-width: 650px;
-        margin: 0 auto 35px;
-    }
-
-    .signature {
-        color: #ff9fc8;
-        font-size: 22px;
-        margin-top: 30px;
-    }
-
-    .footer {
-        text-align: center;
-        margin-top: 35px;
-        color: #53616d;
-        font-size: 11px;
-    }
-
-    @media (max-width: 600px) {
-        .terminal-body {
-            padding: 28px 20px;
-        }
-
-        .status-line {
-            flex-direction: column;
-            gap: 3px;
-        }
-
-        .navigation {
-            flex-direction: column;
-        }
-
-        .nav-button {
-            width: 100%;
-        }
-    }
 </style>
 </head>
 
 <body>
 
-<div class="screen">
-<div class="container">
+<div class="system-window">
 
-<div class="terminal">
-
-    <div class="terminal-header">
-        <span class="dot"></span>
-        <span class="dot"></span>
-        <span class="dot"></span>
-        <span class="terminal-title">daniel_system.exe</span>
+    <div class="window-bar">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="window-title">daniel_system.exe</div>
     </div>
 
-    <div class="terminal-body">
+    <div class="content">
 
-        <!-- TELA INICIAL -->
+        <!-- =========================
+             BOOT SCREEN
+        ========================== -->
 
-        <section id="home">
+        <section class="boot">
 
-            <div class="boot">
-                <div><span class="green">SYSTEM</span> :: initializing...</div>
-                <div><span class="green">MEMORY</span> :: loading special memories...</div>
-                <div><span class="green">CONNECTION</span> :: <span class="blue">stable</span></div>
-                <div><span class="green">STATUS</span> :: <span class="pink">something beautiful detected</span><span class="cursor"></span></div>
+            <div class="boot-line">
+                SYSTEM :: initializing...
             </div>
 
-            <div class="hero">
+            <div class="boot-line">
+                MEMORY :: loading special memories...
+            </div>
 
-                <span class="heart">♥</span>
+            <div class="boot-line">
+                CONNECTION :: <span>stable</span>
+            </div>
 
-                <h1>DANIEL SYSTEM</h1>
+            <div class="boot-line boot-status">
+                STATUS :: something beautiful detected<span class="cursor"></span>
+            </div>
 
-                <p class="subtitle">
-                    Uma pequena experiência sobre uma história<br>
-                    que ainda está sendo escrita.
-                </p>
+        </section>
 
-                <div class="status">
 
-                    <div class="status-line">
-                        <span class="muted">USER</span>
-                        <span class="blue">DANIEL</span>
+        <!-- =========================
+             SYSTEM HEADER
+        ========================== -->
+
+        <header class="system-header">
+
+            <div class="system-symbol">♥</div>
+
+            <h1>DANIEL SYSTEM</h1>
+
+            <p>
+                uma pequena experiência sobre uma variável que mudou o sistema.
+            </p>
+
+        </header>
+
+
+        <!-- =========================
+             SYSTEM STATUS
+        ========================== -->
+
+        <section class="panel">
+
+            <div class="panel-header">
+                <span>SYSTEM_STATUS</span>
+                <span class="active">● ONLINE</span>
+            </div>
+
+            <div class="panel-body">
+
+                <div class="status-grid">
+
+                    <div class="status">
+                        <div class="status-label">CONNECTION</div>
+                        <div class="status-value">STABLE</div>
                     </div>
 
-                    <div class="status-line">
-                        <span class="muted">CONNECTION</span>
-                        <span class="green">ESTABLISHED</span>
+                    <div class="status">
+                        <div class="status-label">MEMORY</div>
+                        <div class="status-value">4 FILES LOADED</div>
                     </div>
 
-                    <div class="status-line">
-                        <span class="muted">STORY</span>
-                        <span class="purple">IN PROGRESS</span>
+                    <div class="status">
+                        <div class="status-label">SYSTEM RESPONSE</div>
+                        <div class="status-value pink">UNEXPECTED</div>
                     </div>
 
-                    <div class="status-line">
-                        <span class="muted">HEART</span>
-                        <span class="pink">FULL ♥</span>
+                    <div class="status">
+                        <div class="status-label">ERRORS</div>
+                        <div class="status-value">0 CRITICAL</div>
+                    </div>
+
+                    <div class="status">
+                        <div class="status-label">PROTOCOL</div>
+                        <div class="status-value yellow">DO NOT RUSH</div>
+                    </div>
+
+                    <div class="status">
+                        <div class="status-label">CURRENT STATE</div>
+                        <div class="status-value">HAPPY</div>
                     </div>
 
                 </div>
 
-                <button class="button" onclick="startStory()">
-                    [ INICIAR EXPERIÊNCIA ]
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             CORE CODE
+        ========================== -->
+
+        <section class="panel">
+
+            <div class="panel-header">
+                <span>CORE / relationship.js</span>
+                <span class="active">READ ONLY</span>
+            </div>
+
+            <div class="panel-body">
+
+                <div class="code">
+
+                    <div class="line">
+                        <span class="num">01</span>
+                        <span class="keyword">const</span>
+                        <span class="variable">system</span> =
+                        <span class="function">initialize</span>();
+                    </div>
+
+                    <div class="line">
+                        <span class="num">02</span>
+                    </div>
+
+                    <div class="line">
+                        <span class="num">03</span>
+                        <span class="variable">system</span>.configuration = {
+                    </div>
+
+                    <div class="line">
+                        <span class="num">04</span>
+                        &nbsp;&nbsp;&nbsp;&nbsp;connection:
+                        <span class="string">"genuine"</span>,
+                    </div>
+
+                    <div class="line">
+                        <span class="num">05</span>
+                        &nbsp;&nbsp;&nbsp;&nbsp;trust:
+                        <span class="string">"growing"</span>,
+                    </div>
+
+                    <div class="line">
+                        <span class="num">06</span>
+                        &nbsp;&nbsp;&nbsp;&nbsp;freedom:
+                        <span class="string">true</span>,
+                    </div>
+
+                    <div class="line">
+                        <span class="num">07</span>
+                        &nbsp;&nbsp;&nbsp;&nbsp;laughter:
+                        <span class="string">"unlimited"</span>,
+                    </div>
+
+                    <div class="line">
+                        <span class="num">08</span>
+                        &nbsp;&nbsp;&nbsp;&nbsp;memories:
+                        <span class="string">4</span>
+                    </div>
+
+                    <div class="line">
+                        <span class="num">09</span>
+                        };
+                    </div>
+
+                    <div class="line">
+                        <span class="num">10</span>
+                    </div>
+
+                    <div class="line">
+                        <span class="num">11</span>
+                        <span class="comment">// no manual override required.</span>
+                    </div>
+
+                    <div class="line">
+                        <span class="num">12</span>
+                        <span class="comment">// the system seems to know what it is doing.</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             COMMAND CENTER
+        ========================== -->
+
+        <section class="panel">
+
+            <div class="panel-header">
+                <span>COMMAND_CENTER</span>
+                <span>USER ACCESS: GRANTED</span>
+            </div>
+
+            <div class="panel-body">
+
+                <div class="code">
+                    <span class="comment">$ select_operation --available</span>
+                </div>
+
+                <div class="command-bar">
+
+                    <button class="command"
+                            onclick="scrollToSection('memories')">
+                        [1] ACCESS_MEMORIES
+                    </button>
+
+                    <button class="command"
+                            onclick="runSystem()">
+                        [2] RUN_DIAGNOSTIC
+                    </button>
+
+                    <button class="command"
+                            onclick="scrollToSection('final')">
+                        [3] EXECUTE_FINAL_PROTOCOL
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             MEMORIES
+        ========================== -->
+
+        <section class="panel" id="memories">
+
+            <div class="panel-header">
+                <span>MEMORY_DATABASE</span>
+                <span class="active">4 RECORDS FOUND</span>
+            </div>
+
+            <div class="panel-body">
+
+                <div class="code" style="margin-bottom:20px;">
+                    <span class="comment">
+                        // encrypted memories detected
+                    </span>
+                    <br>
+                    <span class="comment">
+                        // visual data available for authorized user
+                    </span>
+                </div>
+
+
+                <div class="memory-grid">
+
+
+                    <!-- MEMORY 01 -->
+
+                    <div class="memory-card"
+                         onclick="openMemory(
+                         '01 / FIRST_CONNECTION',
+                         'memories/01-first-connection.jpeg'
+                         )">
+
+                        <div class="memory-id">
+                            MEMORY_001
+                        </div>
+
+                        <div class="memory-name">
+                            FIRST_CONNECTION
+                        </div>
+
+                        <div class="memory-status">
+                            DATA INTACT
+                        </div>
+
+                        <img src="memories/01-first-connection.jpeg"
+                             alt="Memory 001">
+
+                    </div>
+
+
+                    <!-- MEMORY 02 -->
+
+                    <div class="memory-card"
+                         onclick="openMemory(
+                         '02 / WHATSAPP TITLES',
+                         'memories/02-whatsapp-titles.jpeg'
+                         )">
+
+                        <div class="memory-id">
+                            MEMORY_002
+                        </div>
+
+                        <div class="memory-name">
+                            WHATSAPP_TITLES
+                        </div>
+
+                        <div class="memory-status">
+                            DATA INTACT
+                        </div>
+
+                        <img src="memories/02-whatsapp-titles.jpeg"
+                             alt="Memory 002">
+
+                    </div>
+
+
+                    <!-- MEMORY 03 -->
+
+                    <div class="memory-card"
+                         onclick="openMemory(
+                         '03 / SMALL DETAILS',
+                         'memories/03-small-details.jpeg'
+                         )">
+
+                        <div class="memory-id">
+                            MEMORY_003
+                        </div>
+
+                        <div class="memory-name">
+                            SMALL_DETAILS
+                        </div>
+
+                        <div class="memory-status">
+                            DATA INTACT
+                        </div>
+
+                        <img src="memories/03-small-details.jpeg"
+                             alt="Memory 003">
+
+                    </div>
+
+
+                    <!-- MEMORY 04 -->
+
+                    <div class="memory-card"
+                         onclick="openMemory(
+                         '04 / AT THE TABLE',
+                         'memories/04-at-the-table.jpeg'
+                         )">
+
+                        <div class="memory-id">
+                            MEMORY_004
+                        </div>
+
+                        <div class="memory-name">
+                            AT_THE_TABLE
+                        </div>
+
+                        <div class="memory-status">
+                            DATA INTACT
+                        </div>
+
+                        <img src="memories/04-at-the-table.jpeg"
+                             alt="Memory 004">
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             DIAGNOSTIC
+        ========================== -->
+
+        <section class="panel">
+
+            <div class="panel-header">
+                <span>DIAGNOSTIC / system_check.sh</span>
+                <span>READY</span>
+            </div>
+
+            <div class="execution">
+
+                <div class="terminal-output" id="terminalOutput">
+
+                    <div>
+                        <span class="output-cyan">$</span>
+                        ./system_check.sh
+                    </div>
+
+                    <br>
+
+                    <div>
+                        awaiting execution...
+                    </div>
+
+                </div>
+
+                <div class="progress">
+                    <div class="progress-bar"
+                         id="progressBar"></div>
+                </div>
+
+                <button class="command"
+                        onclick="runSystem()"
+                        style="margin-top:18px;">
+                    RUN SYSTEM CHECK
                 </button>
 
             </div>
@@ -424,359 +960,321 @@
         </section>
 
 
-        <!-- HISTÓRIA -->
+        <!-- =========================
+             FINAL PROTOCOL
+        ========================== -->
 
-        <section id="story" class="story">
+        <section class="panel" id="final">
 
-            <div class="progress" id="progress"></div>
+            <div class="panel-header">
+                <span>FINAL_PROTOCOL</span>
+                <span class="active">AUTHORIZED</span>
+            </div>
 
-            <div id="chapter"></div>
+            <div class="final">
+
+                <div class="final-small">
+                    SYSTEM HAS REACHED A CONCLUSION
+                </div>
+
+                <div class="code"
+                     style="margin-bottom:30px;">
+
+                    <div>
+                        <span class="keyword">if</span>
+                        (connection.isReal) {
+                    </div>
+
+                    <div style="padding-left:25px;">
+                        <span class="function">execute</span>(
+                        <span class="string">"what was never said"</span>
+                        );
+                    </div>
+
+                    <div>
+                        }
+                    </div>
+
+                </div>
+
+
+                <div class="final-code">
+
+                    <div>
+                        <span class="keyword">const</span>
+                        <span class="variable">finalOutput</span> =
+                    </div>
+
+                    <div style="padding-left:20px;">
+                        <span class="string">
+                            "I LOVE YOU"
+                        </span>;
+                    </div>
+
+                </div>
+
+
+                <div class="final-message"
+                     id="finalMessage">
+
+                    &gt; execution complete.<br>
+                    &gt; no rollback available. ❤️
+
+                </div>
+
+            </div>
 
         </section>
 
+
         <div class="footer">
-            system created with love // 2026
+
+            DANIEL_SYSTEM.exe · version 1.0 ·
+            built with memories, chaos & affection
+
         </div>
 
     </div>
 
 </div>
 
-</div>
+
+<!-- =========================
+     MEMORY MODAL
+========================= -->
+
+<div class="modal" id="memoryModal">
+
+    <div class="modal-box">
+
+        <div class="modal-top">
+
+            <span id="modalTitle">
+                MEMORY
+            </span>
+
+            <button class="close"
+                    onclick="closeMemory()">
+                [ CLOSE ]
+            </button>
+
+        </div>
+
+        <div class="modal-image">
+
+            <img id="modalImage"
+                 src=""
+                 alt="Memory">
+
+        </div>
+
+        <div class="modal-info">
+
+            MEMORY STATUS ::
+            <span style="color:var(--green)">
+                VERIFIED
+            </span>
+
+            <br><br>
+
+            visual archive opened successfully.
+
+        </div>
+
+    </div>
+
 </div>
 
 
 <script>
 
-const chapters = [
+/* =========================
+   SCROLL
+========================= */
 
-{
-    number: "01 // CONNECTION ESTABLISHED",
-    title: "E então, a gente se encontrou.",
-    symbol: "⌁",
-    text: `
-    Duas pessoas que não sabiam exatamente onde aquela história iria chegar
-    acabaram dando match.
-    <br><br>
-    E o primeiro encontro não saiu exatamente como planejado.
-    Os lugares estavam fechados, os planos mudaram...
-    e, no fim, a gente simplesmente improvisou.
-    `,
-    memory: `
-    Talvez o mais bonito tenha sido justamente isso:
-    não precisar que tudo saísse perfeito para que fosse especial.
-    `
-},
+function scrollToSection(id){
 
-{
-    number: "02 // MEMORY STORED",
-    title: "Pequenos detalhes.",
-    symbol: "🍷",
-    text: `
-    Tem coisas que parecem pequenas.
-    Um vinho escolhido pensando no que o outro gosta.
-    Um detalhe lembrado no meio de uma conversa.
-    Uma coisa que poderia passar despercebida.
-    `,
-    memory: `
-    Mas quando alguém presta atenção,
-    o pequeno deixa de ser pequeno.
-    `
-},
+    document
+        .getElementById(id)
+        .scrollIntoView({
+            behavior:"smooth"
+        });
 
-{
-    number: "03 // SPECIAL EVENT",
-    title: "Dois girassóis.",
-    symbol: "🌻",
-    text: `
-    E teve aquele momento em que chegaram as flores.
-    Um gesto inesperado, bonito e completamente seu.
-    `,
-    memory: `
-    Acho que descobri uma coisa:
-    às vezes a gente não precisa de grandes declarações.
-    Às vezes, dois girassóis já dizem bastante.
-    `
-},
-
-{
-    number: "04 // CONNECTION",
-    title: "Você na minha teia.",
-    symbol: "🕸️",
-    text: `
-    Em algum momento, presentes começaram a contar histórias também.
-    Uma pequena referência, uma brincadeira,
-    uma ideia que virou objeto.
-    `,
-    memory: `
-    Eu tinha uma ideia...
-    <br>
-    <strong>Você na minha teia.</strong>
-    `
-},
-
-{
-    number: "05 // PERSISTENT MEMORY",
-    title: "Um olhar que vai comigo.",
-    symbol: "👀",
-    text: `
-    Algumas coisas a gente carrega mesmo quando não está perto.
-    Uma lembrança.
-    Um detalhe.
-    Um olhar.
-    `,
-    memory: `
-    Seu olhar comigo,
-    onde quer que eu vá,
-    ele me acompanha.
-    `
-},
-
-{
-    number: "06 // CORE SYSTEM",
-    title: "Incendeie seu coração.",
-    symbol: "🔥",
-    text: `
-    Tem uma coisa que eu admiro em você:
-    a pessoa que você é quando simplesmente é você.
-    `,
-    memory: `
-    心を燃やせ
-    <br><br>
-    Incendeie seu coração.
-    <br><br>
-    E nunca deixe de ser quem você é.
-    `
-},
-
-{
-    number: "07 // SHARED MEMORY",
-    title: "Uma mesa.",
-    symbol: "🍲",
-    text: `
-    E talvez uma das minhas memórias favoritas seja uma das mais simples:
-    uma cozinha, algumas panelas e uma mesa cheia de gente.
-    <br><br>
-    Eu cozinhando.
-    Você fazendo o arroz.
-    Sua família experimentando.
-    Conversas acontecendo.
-    Risadas.
-    E aquela sensação gostosa de estar exatamente onde eu queria estar.
-    `,
-    memory: `
-    Cozinhar é um ato de amor.
-    <br><br>
-    E algumas refeições acabam virando memória antes mesmo de terminarem.
-    `
-},
-
-{
-    number: "08 // FINAL STATUS",
-    title: "História em andamento.",
-    symbol: "♥",
-    text: `
-    Eu não sei exatamente onde essa história vai chegar.
-    <br><br>
-    E, pela primeira vez em muito tempo,
-    acho que não preciso saber agora.
-    `,
-    memory: `
-    Só sei que, entre tantos caminhos possíveis,
-    eu gostei muito de encontrar você.
-    `,
-    final: true
-}
-
-];
-
-
-let current = 0;
-
-
-function startStory() {
-
-    document.getElementById("home").style.display = "none";
-    document.getElementById("story").classList.add("active");
-
-    showChapter();
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
 }
 
 
-function showChapter() {
+/* =========================
+   MEMORY SYSTEM
+========================= */
 
-    const chapter = chapters[current];
+function openMemory(title,image){
 
-    const progress = document.getElementById("progress");
+    document
+        .getElementById("modalTitle")
+        .textContent = title;
 
-    progress.innerHTML = "";
+    document
+        .getElementById("modalImage")
+        .src = image;
 
-    chapters.forEach((item, index) => {
+    document
+        .getElementById("memoryModal")
+        .classList
+        .add("open");
 
-        const bar = document.createElement("span");
+}
 
-        if (index <= current) {
-            bar.classList.add("active");
+
+function closeMemory(){
+
+    document
+        .getElementById("memoryModal")
+        .classList
+        .remove("open");
+
+}
+
+
+document
+    .getElementById("memoryModal")
+    .addEventListener("click",function(event){
+
+        if(event.target === this){
+            closeMemory();
         }
 
-        progress.appendChild(bar);
-
     });
 
 
-    let html = `
+/* =========================
+   SYSTEM DIAGNOSTIC
+========================= */
 
-        <div class="chapter-number">${chapter.number}</div>
+let running = false;
 
-        <h2>${chapter.title}</h2>
+function runSystem(){
 
-        <div class="symbol">${chapter.symbol}</div>
+    if(running) return;
 
-        <div class="story-text">
-            ${chapter.text}
-        </div>
+    running = true;
 
-        <div class="memory">
-            ${chapter.memory}
-        </div>
+    const output =
+        document.getElementById("terminalOutput");
 
-    `;
+    const bar =
+        document.getElementById("progressBar");
 
+    output.innerHTML = "";
 
-    if (chapter.final) {
+    const lines = [
 
-        html += `
+        ["$ ./system_check.sh","cyan"],
 
-            <div class="final">
+        ["",""],
 
-                <div class="final-message">
+        ["loading memories...",""],
 
-                    Não sei onde essa história vai chegar.<br>
-                    E talvez essa seja justamente a parte bonita.
+        ["memory_001 :: FOUND","green"],
 
-                    <br><br>
+        ["memory_002 :: FOUND","green"],
 
-                    Mas sei que, entre tantos caminhos possíveis,
-                    eu gostei muito de encontrar você.
+        ["memory_003 :: FOUND","green"],
 
-                    <br><br>
+        ["memory_004 :: FOUND","green"],
 
-                    Obrigada por fazer parte da minha história.
+        ["",""],
 
-                    <div class="signature">
-                        Avy jorrāelan ❤️
-                    </div>
+        ["checking connection...",""],
 
-                </div>
+        ["connection :: STABLE","green"],
 
-            </div>
+        ["",""],
 
-        `;
+        ["checking compatibility...",""],
+
+        ["compatibility :: HIGH","yellow"],
+
+        ["",""],
+
+        ["checking unexpected feelings...",""],
+
+        ["warning :: impossible to quantify","pink"],
+
+        ["",""],
+
+        ["system conclusion :: beautiful","green"]
+
+    ];
+
+    let index = 0;
+
+    function nextLine(){
+
+        if(index >= lines.length){
+
+            bar.style.width = "100%";
+
+            setTimeout(()=>{
+
+                document
+                    .getElementById("finalMessage")
+                    .classList
+                    .add("visible");
+
+                running = false;
+
+            },600);
+
+            return;
+
+        }
+
+        const [text,type] = lines[index];
+
+        const div =
+            document.createElement("div");
+
+        if(type){
+
+            div.className =
+                "output-" + type;
+
+        }
+
+        div.textContent = text;
+
+        output.appendChild(div);
+
+        output.scrollTop =
+            output.scrollHeight;
+
+        bar.style.width =
+            ((index + 1) / lines.length * 100) + "%";
+
+        index++;
+
+        setTimeout(nextLine,180);
 
     }
 
-
-    html += `<div class="navigation">`;
-
-    if (current > 0) {
-
-        html += `
-            <button class="nav-button" onclick="previousChapter()">
-                ← voltar
-            </button>
-        `;
-
-    } else {
-
-        html += `
-            <button class="nav-button" onclick="backHome()">
-                ← início
-            </button>
-        `;
-
-    }
-
-
-    if (current < chapters.length - 1) {
-
-        html += `
-            <button class="nav-button" onclick="nextChapter()">
-                continuar →
-            </button>
-        `;
-
-    } else {
-
-        html += `
-            <button class="nav-button" onclick="backHome()">
-                ↻ reiniciar
-            </button>
-        `;
-
-    }
-
-    html += `</div>`;
-
-
-    document.getElementById("chapter").innerHTML = html;
+    nextLine();
 
 }
 
 
-function nextChapter() {
+/* =========================
+   KEYBOARD SHORTCUT
+========================= */
 
-    if (current < chapters.length - 1) {
+document.addEventListener("keydown",function(event){
 
-        current++;
+    if(event.key === "Escape"){
 
-        showChapter();
-
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
+        closeMemory();
 
     }
 
-}
-
-
-function previousChapter() {
-
-    if (current > 0) {
-
-        current--;
-
-        showChapter();
-
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-
-    }
-
-}
-
-
-function backHome() {
-
-    current = 0;
-
-    document.getElementById("story").classList.remove("active");
-    document.getElementById("home").style.display = "block";
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-
-}
+});
 
 </script>
 
