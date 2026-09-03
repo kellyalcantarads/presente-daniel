@@ -201,6 +201,11 @@ header{
 }
 
 /* =========================
+   SYSTEM SCAN
+========================= */
+.scan-screen{max-width:760px;margin:70px auto}.scan-output{border:1px solid var(--border);background:#03090b;padding:25px;box-shadow:0 0 25px rgba(0,255,120,.04)}.scan-title{color:var(--green);margin-bottom:22px}.scan-line{color:#aab9bc;margin:8px 0}.scan-warning{color:var(--gold);margin-top:22px;line-height:1.7}.scan-button{margin-top:25px;background:transparent;border:1px solid var(--green);color:var(--green);padding:11px 18px;font-family:inherit;cursor:pointer}.scan-button:hover{background:var(--green);color:#020608;box-shadow:0 0 18px rgba(99,255,155,.3)}
+
+/* =========================
    LOGIN
 ========================= */
 
@@ -714,6 +719,16 @@ footer{
 }
 
 /* =========================
+   IMAGE LIGHTBOX
+========================= */
+.lightbox{position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;padding:25px;background:rgba(0,0,0,.92);cursor:zoom-out}.lightbox.hidden{display:none!important}.lightbox img{max-width:95vw;max-height:90vh;object-fit:contain;border:1px solid var(--border);box-shadow:0 0 40px rgba(99,255,155,.12);cursor:default}.lightbox-close{position:fixed;top:18px;right:22px;color:var(--green);font-size:22px;cursor:pointer}.memory{cursor:zoom-in}
+
+/* =========================
+   MAINFRAME
+========================= */
+.mainframe{white-space:pre;overflow-x:auto;color:#b8c5c7;font-family:inherit;line-height:1.55}
+
+/* =========================
    MOBILE
 ========================= */
 
@@ -813,10 +828,16 @@ footer{
 
 
 <!-- =========================
-     01 — LOGIN
+     01 — SYSTEM SCAN
+========================= -->
+<section id="systemScan" class="scan-screen"><div class="scan-output"><div class="scan-title">&gt; scan --system</div><div class="scan-line">SYSTEM SCAN COMPLETE</div><br><div class="scan-line">USER .................... DANIEL</div><div class="scan-line">CONNECTION .............. KELLY</div><div class="scan-line">MEMORIES ................ 04</div><div class="scan-line">EMOTIONAL DATA .......... DETECTED</div><div class="scan-warning">WARNING:<br>Some memories may cause emotional instability.</div><button id="scanButton" class="scan-button">&gt; CONTINUE</button></div></section>
+
+
+<!-- =========================
+     02 — LOGIN
 ========================= -->
 
-<section id="login" class="login-screen">
+<section id="login" class="login-screen hidden">
 
     <div class="terminal">
 
@@ -896,45 +917,24 @@ footer{
             03 — DASHBOARD
         </div>
 
-        <div class="muted">
-            DANIEL_SYSTEM :: MAINFRAME
-        </div>
-
-        <br>
-
-        <div class="system-grid">
-
-            <div class="system-item">
-                SYSTEM STATUS
-                <span class="online">● ONLINE</span>
-            </div>
-
-            <div class="system-item">
-                MEMORY CORE
-                <span class="online">● ACTIVE</span>
-            </div>
-
-            <div class="system-item">
-                CONNECTION
-                <span class="online">● STABLE</span>
-            </div>
-
-            <div class="system-item">
-                LOVE.exe
-                <span class="online">● RUNNING</span>
-            </div>
-
-        </div>
-
-        <div class="module-list">
-
-            <div>&gt; COMMAND_CENTER</div>
-            <div>&gt; MEMORY_DATABASE</div>
-            <div>&gt; CONNECTION_LOG</div>
-            <div>&gt; SYSTEM_ANALYSIS</div>
-            <div>&gt; UNKNOWN_MODULE</div>
-
-        </div>
+        <pre class="mainframe">
+╔══════════════════════════════════════════════╗
+║ DANIEL_SYSTEM :: MAINFRAME                   ║
+╠══════════════════════════════════════════════╣
+║                                              ║
+║ SYSTEM STATUS       ● ONLINE                 ║
+║ MEMORY CORE         ● ACTIVE                 ║
+║ CONNECTION          ● STABLE                 ║
+║                                              ║
+║ AVAILABLE MODULES                            ║
+║                                              ║
+║ &gt; MEMORY_ARCHIVE                             ║
+║ &gt; CONNECTION_LOG                             ║
+║ &gt; SYSTEM_ANALYSIS                            ║
+║ &gt; UNKNOWN_MODULE                             ║
+║                                              ║
+╚══════════════════════════════════════════════╝
+</pre>
 
     </div>
 
@@ -1032,6 +1032,7 @@ footer{
         <div class="memory">
 
             <img
+                onclick="openMemory(this.src)"
                 src="memories/01-first-connection.jpeg"
                 alt="First connection"
             >
@@ -1056,6 +1057,7 @@ footer{
         <div class="memory">
 
             <img
+                onclick="openMemory(this.src)"
                 src="memories/02-whatsapp-titles.jpeg"
                 alt="WhatsApp titles"
             >
@@ -1080,6 +1082,7 @@ footer{
         <div class="memory">
 
             <img
+                onclick="openMemory(this.src)"
                 src="memories/03-small-details.jpeg"
                 alt="Small details"
             >
@@ -1104,6 +1107,7 @@ footer{
         <div class="memory">
 
             <img
+                onclick="openMemory(this.src)"
                 src="memories/04-at-the-table.jpeg"
                 alt="At the table"
             >
@@ -1392,7 +1396,7 @@ footer{
         </div>
 
         <div class="jp-translation">
-            INCENDIE SEU CORAÇÃO
+            心を燃やせ :: FIRE_PROTOCOL
         </div>
 
         <div class="anime-code">
@@ -1434,34 +1438,17 @@ footer{
             <div>
 
                 <div class="artifact-title">
-                    MY GAZE // ALWAYS WITH YOU
+                    ARTIFACT_ID :: KELLY_GAZE_01
                 </div>
 
                 <div class="artifact-text">
-
-                    A small artifact carrying something
-                    much bigger than itself.
-
-                    <br><br>
-
-                    Wherever you go,
-                    my gaze goes with you.
-
-                    <br>
-
-                    Not to watch over you.
-
-                    <br>
-
-                    Just to remind you
-                    that a piece of me is there.
-
-                    <br><br>
-
-                    <span class="prompt">
-                        STATUS :: ALWAYS WITH YOU
-                    </span>
-
+                    TYPE :: PERSONAL_TOKEN<br>
+                    STATUS :: ALWAYS_WITH_YOU<br><br>
+                    &gt; bind --artifact<br>
+                    &gt; target: DANIEL<br>
+                    &gt; payload: KELLY_GAZE<br>
+                    &gt; location: WHEREVER_YOU_GO<br><br>
+                    CONNECTION :: PERMANENT
                 </div>
 
             </div>
@@ -1657,6 +1644,11 @@ for (int i = 0; i &lt; 1000; i++) {
 </div>
 
 
+<!-- =========================
+     IMAGE LIGHTBOX
+========================= -->
+<div id="lightbox" class="lightbox hidden" onclick="closeMemory(event)"><div class="lightbox-close">[ ESC / CLOSE ]</div><img id="lightboxImage" src="" alt="Memory preview"></div>
+
 <script>
 
 /* =========================
@@ -1677,6 +1669,11 @@ window.addEventListener("load", () => {
 
 });
 
+
+/* =========================
+   SYSTEM SCAN
+========================= */
+.scan-screen{max-width:760px;margin:70px auto}.scan-output{border:1px solid var(--border);background:#03090b;padding:25px;box-shadow:0 0 25px rgba(0,255,120,.04)}.scan-title{color:var(--green);margin-bottom:22px}.scan-line{color:#aab9bc;margin:8px 0}.scan-warning{color:var(--gold);margin-top:22px;line-height:1.7}.scan-button{margin-top:25px;background:transparent;border:1px solid var(--green);color:var(--green);padding:11px 18px;font-family:inherit;cursor:pointer}.scan-button:hover{background:var(--green);color:#020608;box-shadow:0 0 18px rgba(99,255,155,.3)}
 
 /* =========================
    LOGIN
@@ -1756,6 +1753,22 @@ passwordInput.addEventListener(
     }
 );
 
+
+/* =========================
+   SYSTEM SCAN
+========================= */
+const scanButton=document.getElementById("scanButton");
+const scanScreen=document.getElementById("systemScan");
+scanButton.addEventListener("click",()=>{scanScreen.classList.add("hidden");document.getElementById("login").classList.remove("hidden");window.scrollTo({top:0,behavior:"smooth"});});
+
+/* =========================
+   MEMORY LIGHTBOX
+========================= */
+const lightbox=document.getElementById("lightbox");
+const lightboxImage=document.getElementById("lightboxImage");
+function openMemory(src){lightboxImage.src=src;lightbox.classList.remove("hidden");document.body.style.overflow="hidden";}
+function closeMemory(event){if(event.target===lightbox||event.target.classList.contains("lightbox-close")){lightbox.classList.add("hidden");lightboxImage.src="";document.body.style.overflow="";}}
+document.addEventListener("keydown",event=>{if(event.key==="Escape"){lightbox.classList.add("hidden");lightboxImage.src="";document.body.style.overflow="";}});
 
 /* =========================
    RELATIONSHIP COUNTER
